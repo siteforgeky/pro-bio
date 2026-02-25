@@ -4,6 +4,19 @@ import { Plus, Trash2 } from 'lucide-react'
 import { ImageUploader } from './ImageUploader'
 import Image from 'next/image'
 
+const COMMON_SERVICES = [
+    "HVAC Repair", "HVAC Installation", "AC Tune-up", "Furnace Repair",
+    "Plumbing Repair", "Water Heater Installation", "Drain Cleaning",
+    "Electrical Wiring", "Panel Upgrade", "Lighting Installation",
+    "Roofing Repair", "Roof Replacement",
+    "Landscaping", "Lawn Care", "Hardscaping",
+    "Deck Building", "Fence Installation",
+    "Kitchen Remodeling", "Bathroom Remodeling",
+    "Painting (Interior)", "Painting (Exterior)",
+    "Flooring Installation", "Drywall Repair",
+    "Handyman Services", "General Carpentry", "Concrete Work"
+];
+
 export default function BuilderForm({ profile, onChange }: { profile: any, onChange: (u: any) => void }) {
     const handleLinkAdd = () => {
         const newLinks = [...(profile.links || []), { title: '', url: '' }]
@@ -98,22 +111,26 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
             </div>
 
             {/* Service Offerings */}
-            <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                    <h3 className="text-lg font-heading font-bold text-slate-100">Service Offerings</h3>
+            <div className="space-y-4 bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/60">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div>
+                        <h3 className="text-lg font-heading font-bold text-slate-100">Service Offerings</h3>
+                        <p className="text-xs text-slate-400 mt-1">Select from common services or add your own.</p>
+                    </div>
                 </div>
 
-                <div className="space-y-3">
-                    <div className="flex gap-2">
+                <div className="space-y-5">
+                    {/* Input for custom service */}
+                    <div className="flex gap-2 relative">
                         <input
                             id="newServiceInput"
-                            className="flex-1 bg-zinc-950 border border-zinc-800 text-slate-100 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-brand-amber placeholder-slate-600 transition-colors"
-                            placeholder="e.g., HVAC Repair, Plumbing, Custom Installation..."
+                            className="flex-1 bg-zinc-950 border border-zinc-800 text-slate-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-amber placeholder-slate-500 shadow-inner transition-colors"
+                            placeholder="Type a custom service..."
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault();
                                     const val = e.currentTarget.value.trim();
-                                    if (val) {
+                                    if (val && !(profile.service_options || []).includes(val)) {
                                         const newServices = [...(profile.service_options || []), val];
                                         onChange({ service_options: newServices });
                                         e.currentTarget.value = '';
@@ -126,40 +143,65 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                             onClick={() => {
                                 const input = document.getElementById('newServiceInput') as HTMLInputElement;
                                 const val = input?.value.trim();
-                                if (val) {
+                                if (val && !(profile.service_options || []).includes(val)) {
                                     const newServices = [...(profile.service_options || []), val];
                                     onChange({ service_options: newServices });
                                     input.value = '';
                                 }
                             }}
-                            className="bg-zinc-800 hover:bg-zinc-700 text-slate-300 px-4 py-2 rounded-lg flex items-center gap-1 transition-colors font-medium text-sm"
+                            className="bg-brand-amber hover:bg-amber-400 text-zinc-950 px-5 py-3 rounded-xl flex items-center gap-1.5 transition-all font-black text-sm shadow-[0_0_15px_rgba(245,158,11,0.15)]"
                         >
-                            <Plus className="w-4 h-4" /> Add
+                            <Plus className="w-4 h-4 stroke-[3]" /> Add
                         </button>
                     </div>
 
-                    <div className="flex flex-wrap gap-2 pt-2">
-                        {(profile.service_options || []).map((service: string, i: number) => (
-                            <div key={i} className="flex items-center gap-1.5 bg-brand-amber/10 border border-brand-amber/20 text-brand-amber px-3 py-1.5 rounded-full text-sm font-medium">
-                                <span>{service}</span>
+                    {/* Selected Services */}
+                    <div className="space-y-2">
+                        <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Your Services</h4>
+                        <div className="flex flex-wrap gap-2 min-h-[40px]">
+                            {(profile.service_options || []).map((service: string, i: number) => (
+                                <div key={i} className="flex items-center gap-1.5 bg-brand-amber/10 border border-brand-amber/30 text-brand-amber px-3.5 py-1.5 rounded-full text-sm font-bold shadow-sm animate-in zoom-in-95 duration-200">
+                                    <span>{service}</span>
+                                    <button
+                                        type="button"
+                                        title="Remove Service"
+                                        onClick={() => {
+                                            const newServices = [...(profile.service_options || [])];
+                                            newServices.splice(i, 1);
+                                            onChange({ service_options: newServices });
+                                        }}
+                                        className="hover:bg-brand-amber/20 hover:text-red-400 rounded-full p-0.5 transition-colors ml-1"
+                                    >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                </div>
+                            ))}
+
+                            {(!profile.service_options || profile.service_options.length === 0) && (
+                                <p className="text-sm text-slate-500 w-full text-center py-4 border-2 border-dashed border-zinc-800 rounded-xl">No services added yet. Users will see a general quote form.</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Suggested Services */}
+                    <div className="space-y-3 pt-3 border-t border-zinc-800/60">
+                        <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Suggested for you</h4>
+                        <div className="flex flex-wrap gap-2 max-h-[140px] overflow-y-auto pr-2 custom-scrollbar pb-2">
+                            {COMMON_SERVICES.filter(s => !(profile.service_options || []).includes(s)).map((service, i) => (
                                 <button
+                                    key={i}
                                     type="button"
-                                    title="Remove Service"
                                     onClick={() => {
-                                        const newServices = [...(profile.service_options || [])];
-                                        newServices.splice(i, 1);
+                                        const newServices = [...(profile.service_options || []), service];
                                         onChange({ service_options: newServices });
                                     }}
-                                    className="hover:bg-brand-amber/20 rounded-full p-0.5 transition-colors"
+                                    className="text-xs font-medium bg-zinc-950 border border-zinc-800 text-slate-400 hover:text-slate-200 hover:border-zinc-600 px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 group"
                                 >
-                                    <Trash2 className="w-3.5 h-3.5" />
+                                    <Plus className="w-3 h-3 text-zinc-600 group-hover:text-brand-amber transition-colors" />
+                                    {service}
                                 </button>
-                            </div>
-                        ))}
-
-                        {(!profile.service_options || profile.service_options.length === 0) && (
-                            <p className="text-sm text-slate-500 w-full text-center py-4 border-2 border-dashed border-zinc-800 rounded-xl">No specific services added yet. Users will see a general quote form.</p>
-                        )}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
