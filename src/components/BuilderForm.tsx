@@ -97,6 +97,73 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                 </div>
             </div>
 
+            {/* Service Offerings */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <h3 className="text-lg font-heading font-bold text-slate-100">Service Offerings</h3>
+                </div>
+
+                <div className="space-y-3">
+                    <div className="flex gap-2">
+                        <input
+                            id="newServiceInput"
+                            className="flex-1 bg-zinc-950 border border-zinc-800 text-slate-100 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-brand-amber placeholder-slate-600 transition-colors"
+                            placeholder="e.g., HVAC Repair, Plumbing, Custom Installation..."
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    const val = e.currentTarget.value.trim();
+                                    if (val) {
+                                        const newServices = [...(profile.service_options || []), val];
+                                        onChange({ service_options: newServices });
+                                        e.currentTarget.value = '';
+                                    }
+                                }
+                            }}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => {
+                                const input = document.getElementById('newServiceInput') as HTMLInputElement;
+                                const val = input?.value.trim();
+                                if (val) {
+                                    const newServices = [...(profile.service_options || []), val];
+                                    onChange({ service_options: newServices });
+                                    input.value = '';
+                                }
+                            }}
+                            className="bg-zinc-800 hover:bg-zinc-700 text-slate-300 px-4 py-2 rounded-lg flex items-center gap-1 transition-colors font-medium text-sm"
+                        >
+                            <Plus className="w-4 h-4" /> Add
+                        </button>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 pt-2">
+                        {(profile.service_options || []).map((service: string, i: number) => (
+                            <div key={i} className="flex items-center gap-1.5 bg-brand-amber/10 border border-brand-amber/20 text-brand-amber px-3 py-1.5 rounded-full text-sm font-medium">
+                                <span>{service}</span>
+                                <button
+                                    type="button"
+                                    title="Remove Service"
+                                    onClick={() => {
+                                        const newServices = [...(profile.service_options || [])];
+                                        newServices.splice(i, 1);
+                                        onChange({ service_options: newServices });
+                                    }}
+                                    className="hover:bg-brand-amber/20 rounded-full p-0.5 transition-colors"
+                                >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                            </div>
+                        ))}
+
+                        {(!profile.service_options || profile.service_options.length === 0) && (
+                            <p className="text-sm text-slate-500 w-full text-center py-4 border-2 border-dashed border-zinc-800 rounded-xl">No specific services added yet. Users will see a general quote form.</p>
+                        )}
+                    </div>
+                </div>
+            </div>
+
             {/* Photo Gallery */}
             <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-zinc-800 pb-2">

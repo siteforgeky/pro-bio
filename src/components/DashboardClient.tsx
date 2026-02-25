@@ -24,6 +24,7 @@ export default function DashboardClient({ initialProfile }: { initialProfile: an
                 links: profile.links || [],
                 profile_image_url: profile.profile_image_url,
                 photo_library_urls: profile.photo_library_urls || [],
+                service_options: profile.service_options || [],
             })
             setMessage('Profile saved successfully!')
             setTimeout(() => setMessage(''), 3000)

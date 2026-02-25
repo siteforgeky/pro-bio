@@ -125,6 +125,7 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                 <QuoteForm
                     contractorName={profile.business_name || 'Professional'}
                     contractorPhone={profile.phone_number}
+                    serviceOptions={profile.service_options || []}
                 />
             </div>
 
