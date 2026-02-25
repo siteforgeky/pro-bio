@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { ImageUploader } from './ImageUploader'
 import Image from 'next/image'
@@ -17,7 +18,23 @@ const COMMON_SERVICES = [
     "Handyman Services", "General Carpentry", "Concrete Work"
 ];
 
+function fuzzyMatch(str: string, pattern: string) {
+    pattern = pattern.toLowerCase().replace(/\s/g, '');
+    str = str.toLowerCase().replace(/\s/g, '');
+    let patternIdx = 0;
+    let strIdx = 0;
+    while (patternIdx < pattern.length && strIdx < str.length) {
+        if (pattern[patternIdx] === str[strIdx]) {
+            patternIdx++;
+        }
+        strIdx++;
+    }
+    return patternIdx === pattern.length;
+}
+
 export default function BuilderForm({ profile, onChange }: { profile: any, onChange: (u: any) => void }) {
+    const [serviceInput, setServiceInput] = useState('');
+
     const handleLinkAdd = () => {
         const newLinks = [...(profile.links || []), { title: '', url: '' }]
         onChange({ links: newLinks })
@@ -125,15 +142,17 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                         <input
                             id="newServiceInput"
                             className="flex-1 bg-zinc-950 border border-zinc-800 text-slate-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-amber placeholder-slate-500 shadow-inner transition-colors"
-                            placeholder="Type a custom service..."
+                            placeholder="Search or type a custom service..."
+                            value={serviceInput}
+                            onChange={(e) => setServiceInput(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault();
-                                    const val = e.currentTarget.value.trim();
+                                    const val = serviceInput.trim();
                                     if (val && !(profile.service_options || []).includes(val)) {
                                         const newServices = [...(profile.service_options || []), val];
                                         onChange({ service_options: newServices });
-                                        e.currentTarget.value = '';
+                                        setServiceInput('');
                                     }
                                 }
                             }}
@@ -141,12 +160,11 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                         <button
                             type="button"
                             onClick={() => {
-                                const input = document.getElementById('newServiceInput') as HTMLInputElement;
-                                const val = input?.value.trim();
+                                const val = serviceInput.trim();
                                 if (val && !(profile.service_options || []).includes(val)) {
                                     const newServices = [...(profile.service_options || []), val];
                                     onChange({ service_options: newServices });
-                                    input.value = '';
+                                    setServiceInput('');
                                 }
                             }}
                             className="bg-brand-amber hover:bg-amber-400 text-zinc-950 px-5 py-3 rounded-xl flex items-center gap-1.5 transition-all font-black text-sm shadow-[0_0_15px_rgba(245,158,11,0.15)]"
@@ -183,26 +201,35 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                         </div>
                     </div>
 
-                    {/* Suggested Services */}
-                    <div className="space-y-3 pt-3 border-t border-zinc-800/60">
-                        <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Suggested for you</h4>
-                        <div className="flex flex-wrap gap-2 max-h-[140px] overflow-y-auto pr-2 custom-scrollbar pb-2">
-                            {COMMON_SERVICES.filter(s => !(profile.service_options || []).includes(s)).map((service, i) => (
-                                <button
-                                    key={i}
-                                    type="button"
-                                    onClick={() => {
-                                        const newServices = [...(profile.service_options || []), service];
-                                        onChange({ service_options: newServices });
-                                    }}
-                                    className="text-xs font-medium bg-zinc-950 border border-zinc-800 text-slate-400 hover:text-slate-200 hover:border-zinc-600 px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 group"
-                                >
-                                    <Plus className="w-3 h-3 text-zinc-600 group-hover:text-brand-amber transition-colors" />
-                                    {service}
-                                </button>
-                            ))}
+                    {/* Suggested Services (Fuzzy Search Results) */}
+                    {serviceInput.trim().length > 0 && (
+                        <div className="space-y-3 pt-3 border-t border-zinc-800/60 transition-all duration-300">
+                            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Search Results</h4>
+                            <div className="flex flex-wrap gap-2 max-h-[140px] overflow-y-auto pr-2 custom-scrollbar pb-2">
+                                {COMMON_SERVICES
+                                    .filter(s => !(profile.service_options || []).includes(s))
+                                    .filter(s => fuzzyMatch(s, serviceInput))
+                                    .map((service, i) => (
+                                        <button
+                                            key={i}
+                                            type="button"
+                                            onClick={() => {
+                                                const newServices = [...(profile.service_options || []), service];
+                                                onChange({ service_options: newServices });
+                                                setServiceInput('');
+                                            }}
+                                            className="text-xs font-medium bg-zinc-950 border border-zinc-800 text-slate-400 hover:text-slate-200 hover:border-brand-amber px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 group"
+                                        >
+                                            <Plus className="w-3 h-3 text-zinc-600 group-hover:text-brand-amber transition-colors" />
+                                            {service}
+                                        </button>
+                                    ))}
+                                {COMMON_SERVICES.filter(s => fuzzyMatch(s, serviceInput)).length === 0 && (
+                                    <p className="text-xs text-slate-500 italic py-1 pl-1">Press 'Add' to map "{serviceInput}" as a custom service.</p>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
 
