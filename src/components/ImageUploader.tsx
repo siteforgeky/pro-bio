@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { UploadCloud, X, Loader2, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
+import { useAuth } from '@clerk/nextjs';
 
 interface ImageUploaderProps {
     onUploadComplete: (url: string) => void;
@@ -18,14 +19,14 @@ export function ImageUploader({
     isGallery = false,
     bucketName = 'contractor_assets'
 }: ImageUploaderProps) {
-    const supabase = createClient();
+    const { getToken, userId } = useAuth();
     const [isUploading, setIsUploading] = useState(false);
     const [preview, setPreview] = useState<string | null>(currentImageUrl || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (!file) return;
+        if (!file || !userId) return;
 
         // Basic validation
         if (!file.type.startsWith('image/')) {
@@ -39,10 +40,13 @@ export function ImageUploader({
         setIsUploading(true);
 
         try {
-            // Create a unique file path
+            const clerkToken = await getToken({ template: 'supabase' });
+            const supabase = createClient(clerkToken);
+
+            // Create a unique file path tied to the user
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
-            const filePath = `${fileName}`;
+            const filePath = `${userId}/${fileName}`;
 
             // Upload to Supabase Storage
             const { error: uploadError, data } = await supabase.storage
@@ -60,8 +64,8 @@ export function ImageUploader({
 
             onUploadComplete(publicUrl);
         } catch (error: any) {
-            console.error('Error uploading image:', error);
-            alert('Failed to upload image. Please try again.');
+            console.error('Detailed upload error:', error);
+            alert(`Failed to upload image: ${error?.message || 'Unknown error'}. Please try again.`);
             setPreview(currentImageUrl || null); // Revert on failure
         } finally {
             setIsUploading(false);
