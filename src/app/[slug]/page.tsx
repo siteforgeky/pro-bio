@@ -110,6 +110,21 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                     </div>
                 )}
 
+                {/* Services */}
+                {profile.service_options && profile.service_options.length > 0 && (
+                    <div className="px-8 py-8 border-b border-zinc-900 bg-zinc-950/50">
+                        <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-5">Our Services</h3>
+                        <div className="flex flex-col gap-3">
+                            {profile.service_options.map((service: string, i: number) => (
+                                <div key={i} className="bg-zinc-900 border border-zinc-800 text-sm px-4 py-3 rounded-xl text-slate-300 font-bold flex items-center gap-3 relative overflow-hidden shadow-sm">
+                                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-amber rounded-l-xl"></div>
+                                    {service}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 {/* Links */}
                 {links.length > 0 && (
                     <div className="px-8 py-8 space-y-4 bg-zinc-950">
