@@ -73,6 +73,7 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                             placeholder="Optional"
                             onChange={e => onChange({ license_number: e.target.value })}
                         />
+                        <p className="text-[10px] text-zinc-500 mt-1.5">Please enter your State License Number for customer reference.</p>
                     </div>
                 </div>
 
