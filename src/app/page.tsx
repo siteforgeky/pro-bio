@@ -33,12 +33,12 @@ export default function Home() {
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-black text-slate-50 tracking-tight leading-tight mb-6">
-              The Digital Business Card <br className="hidden md:block" />
-              <span className="text-brand-amber">That Wins You Jobs</span>
+              The Website for Pros <br className="hidden md:block" /> who
+              <span className="bg-brand-amber text-zinc-950 px-4 py-1 mx-1 md:mx-3 rounded-lg font-mono tracking-tighter -rotate-3 inline-block shadow-[4px_4px_0px_#18181b] border-2 border-zinc-950 align-middle">HATE</span> Websites.
             </h1>
 
             <p className="text-lg md:text-xl text-slate-400 mb-10 font-sans leading-relaxed max-w-xl">
-              The essential tool for contractors and skilled trade professionals to showcase their work, build trust, and get hired.
+              Plumbers, Electricians, Landscapers, and HVAC techs: stop losing customers to complicated website builders. Get a rugged, mobile-first profile ready in 3 minutes.
             </p>
 
             <form action="/onboarding" className="flex flex-col sm:flex-row items-center w-full max-w-lg bg-zinc-900 border border-zinc-700/50 rounded-xl p-1.5 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-xl">
@@ -78,10 +78,10 @@ export default function Home() {
             <div className="relative w-full max-w-[320px] mx-auto z-10">
               {/* Floating badges */}
               <div className="absolute -left-6 md:-left-12 top-20 bg-zinc-900 border border-emerald-500/30 text-emerald-400 text-[10px] md:text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full z-20 shadow-2xl whitespace-nowrap rotate-[-6deg] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-                <span className="bg-emerald-500/20 px-1 py-0.5 rounded text-emerald-300 mr-1.5">★</span> X3 More Leads
+                <span className="bg-emerald-500/20 px-1 py-0.5 rounded text-emerald-300 mr-1.5">★</span> Live in 3 Mins
               </div>
               <div className="absolute -right-4 md:-right-8 top-[45%] bg-brand-amber text-zinc-950 text-[10px] md:text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full z-20 shadow-2xl whitespace-nowrap rotate-[6deg] border border-amber-300 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-                Build Trust
+                Instantly Trustworthy
               </div>
               <div className="absolute -left-4 md:-left-8 bottom-32 bg-zinc-900 border border-blue-500/30 text-blue-400 text-[10px] md:text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full z-20 shadow-2xl whitespace-nowrap rotate-[-3deg] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
                 Look Professional
@@ -157,11 +157,11 @@ export default function Home() {
         {/* Transition Header */}
         <section className="w-full max-w-4xl mx-auto px-6 pt-24 pb-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-bold text-red-400 mb-6 font-mono tracking-wide uppercase">
-            <span className="text-red-500 text-base leading-none">⚠</span> The Hidden Cost of Poor Online Presence
+            <span className="text-red-500 text-base leading-none">⚠</span> Don't Look Like An Amateur
           </div>
           <h2 className="text-4xl md:text-5xl font-heading font-black text-slate-50 tracking-tight leading-tight">
-            Stop Losing Leads to <br className="hidden md:block" />
-            <span className="text-brand-amber">Unprofessional Online Presence</span>
+            Stop Losing High-Paying Jobs to <br className="hidden md:block" />
+            <span className="text-brand-amber">Guys With Better Websites</span>
           </h2>
         </section>
 
