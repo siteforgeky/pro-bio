@@ -1,6 +1,7 @@
 'use client'
 
-import { PhoneCall, ShieldCheck } from 'lucide-react'
+import { PhoneCall, ShieldCheck, MessageSquare, Award, HardHat } from 'lucide-react'
+import { BeforeAfterSlider } from '@/components/BeforeAfterSlider'
 
 export default function MobilePreview({ profile }: { profile: any }) {
     const links = Array.isArray(profile.links) ? profile.links : []
@@ -33,6 +34,37 @@ export default function MobilePreview({ profile }: { profile: any }) {
                             Lic: <span className="font-mono text-slate-300">{profile.license_number}</span>
                         </div>
                     )}
+
+                    {/* Job Site Stamp Placeholder */}
+                    <div className="mt-4 flex items-center justify-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-3 py-1.5 rounded-full shadow-inner">
+                        <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                        </span>
+                        Job in Arlington • 2h ago
+                    </div>
+                </div>
+
+                {/* Trust Badges */}
+                <div className="px-6 py-5 bg-zinc-950 flex justify-between gap-2 border-b border-zinc-900">
+                    <div className="flex flex-col items-center gap-1.5 flex-1">
+                        <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                            <ShieldCheck className="w-4 h-4 text-brand-amber" />
+                        </div>
+                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">Licensed<br />Insured</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1.5 flex-1">
+                        <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                            <Award className="w-4 h-4 text-blue-400" />
+                        </div>
+                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">A+ BBB<br />Rating</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1.5 flex-1">
+                        <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                            <HardHat className="w-4 h-4 text-yellow-500" />
+                        </div>
+                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">OSHA<br />Certified</span>
+                    </div>
                 </div>
 
                 {/* Bio */}
@@ -42,6 +74,8 @@ export default function MobilePreview({ profile }: { profile: any }) {
                         {profile.bio || 'Tell your customers why they should hire you. What makes your service the best?'}
                     </p>
                 </div>
+
+                <BeforeAfterSlider />
 
                 {/* Links */}
                 {links.length > 0 && (
@@ -57,11 +91,17 @@ export default function MobilePreview({ profile }: { profile: any }) {
             </div>
 
             {/* Fixed Bottom Action */}
-            <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent pt-12 pb-6 border-t border-zinc-900/50">
-                <button className="w-full flex items-center justify-center gap-2 bg-brand-amber text-zinc-950 py-4 rounded-xl font-black text-lg shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:scale-[1.02] transition-transform">
-                    <PhoneCall className="w-5 h-5 fill-zinc-950" />
-                    CALL NOW
-                </button>
+            <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent pt-12 pb-6 border-t border-zinc-900/50 z-20">
+                <div className="grid grid-cols-2 gap-2">
+                    <button className="h-12 flex items-center justify-center gap-1.5 bg-brand-amber text-zinc-950 rounded-xl font-black text-sm shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:scale-[1.02] transition-transform">
+                        <PhoneCall className="w-4 h-4 fill-zinc-950" />
+                        CALL
+                    </button>
+                    <button className="h-12 flex items-center justify-center gap-1.5 bg-zinc-800 text-slate-100 border border-zinc-700 rounded-xl font-black text-sm shadow-lg hover:scale-[1.02] transition-transform">
+                        <MessageSquare className="w-4 h-4 fill-slate-100/20" />
+                        TEXT
+                    </button>
+                </div>
             </div>
 
             {profile.is_emergency_available && (
