@@ -22,6 +22,11 @@ export interface Database {
                     is_emergency_available: boolean | null
                     profile_image_url: string | null
                     links: Json | null
+                    photo_library_urls: string[] | null
+                    service_options: string[] | null
+                    is_licensed_insured: boolean | null
+                    insurance_document_url: string | null
+                    verification_status: string | null
                     is_pro: boolean | null
                     created_at: string | null
                     updated_at: string | null
@@ -38,6 +43,11 @@ export interface Database {
                     is_emergency_available?: boolean | null
                     profile_image_url?: string | null
                     links?: Json | null
+                    photo_library_urls?: string[] | null
+                    service_options?: string[] | null
+                    is_licensed_insured?: boolean | null
+                    insurance_document_url?: string | null
+                    verification_status?: string | null
                     is_pro?: boolean | null
                     created_at?: string | null
                     updated_at?: string | null
@@ -54,6 +64,11 @@ export interface Database {
                     is_emergency_available?: boolean | null
                     profile_image_url?: string | null
                     links?: Json | null
+                    photo_library_urls?: string[] | null
+                    service_options?: string[] | null
+                    is_licensed_insured?: boolean | null
+                    insurance_document_url?: string | null
+                    verification_status?: string | null
                     is_pro?: boolean | null
                     created_at?: string | null
                     updated_at?: string | null
