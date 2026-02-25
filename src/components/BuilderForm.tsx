@@ -1,6 +1,8 @@
 'use client'
 
 import { Plus, Trash2 } from 'lucide-react'
+import { ImageUploader } from './ImageUploader'
+import Image from 'next/image'
 
 export default function BuilderForm({ profile, onChange }: { profile: any, onChange: (u: any) => void }) {
     const handleLinkAdd = () => {
@@ -20,10 +22,30 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
         onChange({ links: newLinks })
     }
 
+    const handlePhotoAdd = (url: string) => {
+        const newPhotos = [...(profile.photo_library_urls || []), url]
+        onChange({ photo_library_urls: newPhotos })
+    }
+
+    const handlePhotoRemove = (index: number) => {
+        const newPhotos = [...(profile.photo_library_urls || [])]
+        newPhotos.splice(index, 1)
+        onChange({ photo_library_urls: newPhotos })
+    }
+
     return (
         <div className="space-y-8">
             <div className="space-y-5">
                 <h3 className="text-lg font-heading font-bold text-slate-100 border-b border-zinc-800 pb-2">Business Info</h3>
+
+                {/* Profile Picture Upload */}
+                <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-3">Profile Picture / Logo</label>
+                    <ImageUploader
+                        currentImageUrl={profile.profile_image_url}
+                        onUploadComplete={(url) => onChange({ profile_image_url: url })}
+                    />
+                </div>
 
                 <div>
                     <label className="block text-sm font-medium text-slate-400 mb-1.5">Business Name</label>
@@ -70,6 +92,37 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                         value={profile.bio || ''}
                         placeholder="Tell customers about your experience. Why should they hire you?"
                         onChange={e => onChange({ bio: e.target.value })}
+                    />
+                </div>
+            </div>
+
+            {/* Photo Gallery */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <h3 className="text-lg font-heading font-bold text-slate-100">Photo Gallery</h3>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {(profile.photo_library_urls || []).map((url: string, i: number) => (
+                        <div key={i} className="relative aspect- квадрат square rounded-xl overflow-hidden border border-zinc-800 group bg-zinc-900 aspect-square">
+                            <Image src={url} alt={`Gallery Image ${i + 1}`} fill className="object-cover" />
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button
+                                    type="button"
+                                    onClick={() => handlePhotoRemove(i)}
+                                    className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg"
+                                    title="Remove photo"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Add New Photo */}
+                    <ImageUploader
+                        isGallery
+                        onUploadComplete={(url) => handlePhotoAdd(url)}
                     />
                 </div>
             </div>

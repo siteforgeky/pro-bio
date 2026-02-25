@@ -12,6 +12,8 @@ export async function updateProfile(formData: {
     license_number?: string
     is_emergency_available?: boolean
     links?: any
+    profile_image_url?: string
+    photo_library_urls?: string[]
 }) {
     const { userId } = await auth()
     if (!userId) throw new Error('Not authenticated')

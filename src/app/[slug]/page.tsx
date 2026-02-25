@@ -2,17 +2,18 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { PhoneCall, ShieldCheck, Mail, MessageSquare, Award, HardHat, Wrench, Hammer, Zap, Droplet } from 'lucide-react'
 import Link from 'next/link'
-import { BeforeAfterSlider } from '@/components/BeforeAfterSlider'
 
 export default async function PublicProfilePage(props: { params: Promise<{ slug: string }> }) {
     const params = await props.params;
     const supabase = await createClient()
 
-    const { data: profile } = await supabase
+    const { data } = await supabase
         .from('profiles')
         .select('*')
         .eq('slug', params.slug)
         .single()
+
+    const profile = data as any;
 
     if (!profile) {
         notFound()
@@ -37,8 +38,12 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                         </div>
                     )}
 
-                    <div className="w-28 h-28 mt-8 rounded-3xl bg-zinc-800 border-2 border-brand-amber flex items-center justify-center text-5xl font-heading font-black text-slate-300 mb-6 shadow-lg shadow-brand-amber/5">
-                        {profile.business_name ? profile.business_name.charAt(0).toUpperCase() : '?'}
+                    <div className="w-28 h-28 mt-8 rounded-3xl bg-zinc-800 border-2 border-brand-amber flex items-center justify-center text-5xl font-heading font-black text-slate-300 mb-6 shadow-lg shadow-brand-amber/5 overflow-hidden">
+                        {profile.profile_image_url ? (
+                            <img src={profile.profile_image_url || undefined} alt={profile.business_name || 'Profile'} className="w-full h-full object-cover" />
+                        ) : (
+                            profile.business_name ? profile.business_name.charAt(0).toUpperCase() : '?'
+                        )}
                     </div>
 
                     <h1 className="text-3xl font-heading font-black text-slate-100 flex items-center justify-center gap-2 leading-tight">
@@ -98,7 +103,19 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                     </div>
                 )}
 
-                <BeforeAfterSlider />
+                {/* Photo Gallery */}
+                {profile.photo_library_urls && profile.photo_library_urls.length > 0 && (
+                    <div className="px-8 py-8 border-b border-zinc-900 bg-zinc-950">
+                        <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-5">Job Gallery</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            {profile.photo_library_urls.map((url: string, i: number) => (
+                                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-sm relative group">
+                                    <img src={url} alt={`Job Photo ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Links */}
                 {links.length > 0 && (
