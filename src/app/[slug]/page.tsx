@@ -66,19 +66,25 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
 
                 {/* Trust Badges */}
                 <div className="px-8 py-6 bg-zinc-950 flex justify-center gap-4 border-b border-zinc-900">
-                    <div className="flex flex-col items-center gap-2 max-w-[100px]">
-                        <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-                            <ShieldCheck className="w-6 h-6 text-brand-amber" />
+                    <div className={`flex flex-col items-center gap-2 max-w-[100px] ${!profile.is_licensed_insured ? 'opacity-40 grayscale' : ''}`}>
+                        <div className={`w-12 h-12 rounded-full border flex items-center justify-center shadow-inner ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-zinc-900 border-zinc-800'}`}>
+                            <ShieldCheck className={`w-6 h-6 ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'text-emerald-400' : 'text-brand-amber'}`} />
                         </div>
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">License &<br />Insurance<br /><span className="text-[8px] opacity-70">(Provided by Pro)</span></span>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">
+                            {profile.is_licensed_insured && profile.verification_status !== 'Verified' ? 'Self-Reported\nLicensed' : 'Licensed & Insured'}
+                            <br />
+                            <span className="text-[8px] opacity-70">
+                                {profile.is_licensed_insured && profile.verification_status === 'Verified' ? '(Verified by Fixara)' : '(Provided by Pro)'}
+                            </span>
+                        </span>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
+                    <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
                         <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
                             <Award className="w-6 h-6 text-blue-400" />
                         </div>
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">A+ BBB<br />Rating</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
+                    <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
                         <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
                             <HardHat className="w-6 h-6 text-yellow-500" />
                         </div>

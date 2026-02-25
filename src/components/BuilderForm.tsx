@@ -1,22 +1,56 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, AlertCircle } from 'lucide-react'
 import { ImageUploader } from './ImageUploader'
 import Image from 'next/image'
 
-const COMMON_SERVICES = [
-    "HVAC Repair", "HVAC Installation", "AC Tune-up", "Furnace Repair",
-    "Plumbing Repair", "Water Heater Installation", "Drain Cleaning",
-    "Electrical Wiring", "Panel Upgrade", "Lighting Installation",
-    "Roofing Repair", "Roof Replacement",
-    "Landscaping", "Lawn Care", "Hardscaping",
-    "Deck Building", "Fence Installation",
-    "Kitchen Remodeling", "Bathroom Remodeling",
-    "Painting (Interior)", "Painting (Exterior)",
-    "Flooring Installation", "Drywall Repair",
-    "Handyman Services", "General Carpentry", "Concrete Work"
-];
+const TRADE_SUGGESTIONS: Record<string, string[]> = {
+    hvac: [
+        "AC Repair", "AC Tune-up", "Furnace Installation", "Furnace Repair",
+        "Duct Cleaning", "Heat Pump Service", "Thermostat Installation", "Emergency HVAC"
+    ],
+    plumb: [
+        "Leak Detection", "Pipe Repair", "Water Heater Installation", "Water Heater Repair",
+        "Drain Cleaning", "Toilet Installation", "Faucet Repair", "Garbage Disposal"
+    ],
+    electric: [
+        "Panel Upgrade", "Wiring & Rewiring", "Lighting Installation", "Outlet Repair",
+        "Ceiling Fan Installation", "Surge Protection", "Generator Installation", "Emergency Electrical"
+    ],
+    roof: [
+        "Roof Inspection", "Roof Repair", "Complete Replacement", "Leak Repair",
+        "Gutter Installation", "Gutter Cleaning", "Skylight Installation"
+    ],
+    landscape: [
+        "Lawn Maintenance", "Tree Trimming", "Mulch & Pine Straw", "Hardscaping",
+        "Irrigation Repair", "Sod Installation", "Weed Control"
+    ],
+    paint: [
+        "Interior Painting", "Exterior Painting", "Cabinet Refinishing", "Deck Staining",
+        "Drywall Repair", "Wallpaper Removal", "Pressure Washing"
+    ],
+    clean: [
+        "Deep Cleaning", "Move In/Out Cleaning", "Carpet Cleaning", "Window Cleaning",
+        "Post-Construction Cleaning", "Janitorial Services"
+    ]
+};
+
+const COMMON_SERVICES = Array.from(new Set(Object.values(TRADE_SUGGESTIONS).flat())).concat([
+    "Deck Building", "Fence Installation", "Kitchen Remodeling", "Bathroom Remodeling",
+    "Flooring Installation", "Handyman Services", "General Carpentry", "Concrete Work"
+]);
+
+function getSuggestedTags(tradeCategory: string): string[] {
+    if (!tradeCategory) return ["Handyman Services", "General Maintenance", "Emergency Service"];
+    const lower = tradeCategory.toLowerCase();
+    for (const [key, tags] of Object.entries(TRADE_SUGGESTIONS)) {
+        if (lower.includes(key)) {
+            return tags;
+        }
+    }
+    return ["General Maintenance", "Emergency Service", "Consultation", "Repair Work"];
+}
 
 function fuzzyMatch(str: string, pattern: string) {
     pattern = pattern.toLowerCase().replace(/\s/g, '');
@@ -86,25 +120,13 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                     />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-1.5">Trade Category</label>
-                        <input
-                            className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber transition-colors"
-                            value={profile.trade_category || ''}
-                            onChange={e => onChange({ trade_category: e.target.value })}
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-1.5">License Number</label>
-                        <input
-                            className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber text-sm transition-colors"
-                            value={profile.license_number || ''}
-                            placeholder="Optional"
-                            onChange={e => onChange({ license_number: e.target.value })}
-                        />
-                        <p className="text-[10px] text-zinc-500 mt-1.5">Please enter your State License Number for customer reference.</p>
-                    </div>
+                <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Trade Category</label>
+                    <input
+                        className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber transition-colors"
+                        value={profile.trade_category || ''}
+                        onChange={e => onChange({ trade_category: e.target.value })}
+                    />
                 </div>
 
                 <div>
@@ -124,6 +146,79 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                         placeholder="Tell customers about your experience. Why should they hire you?"
                         onChange={e => onChange({ bio: e.target.value })}
                     />
+                </div>
+            </div>
+
+            {/* Trust & Verification */}
+            <div className="space-y-4 bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/60">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div>
+                        <h3 className="text-lg font-heading font-bold text-slate-100">Trust & Verification</h3>
+                        <p className="text-xs text-slate-400 mt-1">Build confidence with your customers.</p>
+                    </div>
+                </div>
+
+                <div className="space-y-5 pt-2">
+                    <label className="flex items-center justify-between cursor-pointer group">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-sm font-bold text-slate-200 group-hover:text-brand-amber transition-colors">Licensed & Insured</span>
+                            <span className="text-xs text-slate-500">I confirm my business holds valid credentials.</span>
+                        </div>
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                className="sr-only"
+                                checked={profile.is_licensed_insured || false}
+                                onChange={(e) => onChange({ is_licensed_insured: e.target.checked })}
+                            />
+                            <div className={`block w-14 h-8 rounded-full transition-colors duration-300 ${profile.is_licensed_insured ? 'bg-brand-amber' : 'bg-zinc-800'}`}></div>
+                            <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ${profile.is_licensed_insured ? 'translate-x-6' : ''}`}></div>
+                        </div>
+                    </label>
+
+                    {profile.is_licensed_insured && (
+                        <div className="pt-4 border-t border-zinc-800/60 space-y-5 animate-in fade-in slide-in-from-top-2 duration-300">
+
+                            <div className="flex items-start gap-3 bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl">
+                                <div className="mt-0.5"><AlertCircle className="w-5 h-5 text-amber-500 shrink-0" /></div>
+                                <div className="flex flex-col gap-1.5">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-sm font-bold text-amber-500">Verification Status:</span>
+                                        <span className="text-xs font-black uppercase tracking-wider bg-zinc-950 text-slate-300 px-2 py-0.5 rounded border border-zinc-700">{profile.verification_status || 'Unverified'}</span>
+                                    </div>
+                                    <p className="text-xs text-amber-500/80 leading-relaxed">This will show as "Self-Reported" on your profile until our team reviews your documents. Verified pros get 3x more leads.</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-1.5">State License Number</label>
+                                    <div className="flex sm:flex-row flex-col gap-2">
+                                        <input
+                                            className="w-full rounded-md px-4 py-2 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber text-sm transition-colors"
+                                            value={profile.license_number || ''}
+                                            onChange={e => onChange({ license_number: e.target.value })}
+                                            placeholder="e.g. TX-1294812"
+                                        />
+                                        <a href="https://v2.boardmanagementsystem.com/search/" target="_blank" rel="noopener noreferrer" className="bg-zinc-800 hover:bg-zinc-700 text-slate-300 px-4 py-2 rounded-md font-medium text-sm transition-colors text-center shrink-0">
+                                            Verify
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Certificate of Insurance</label>
+                                    <div className="w-full overflow-hidden border border-zinc-800 rounded-xl bg-zinc-950 p-2">
+                                        <ImageUploader
+                                            currentImageUrl={profile.insurance_document_url}
+                                            onUploadComplete={(url) => onChange({ insurance_document_url: url })}
+                                            isGallery={true}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -200,6 +295,31 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                             )}
                         </div>
                     </div>
+
+                    {/* Smart Suggestions (Empty Search State) */}
+                    {serviceInput.trim().length === 0 && (
+                        <div className="space-y-3 pt-3 border-t border-zinc-800/60 transition-all duration-300">
+                            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Suggested based on your trade</h4>
+                            <div className="flex flex-wrap gap-2 max-h-[140px] overflow-y-auto pr-2 custom-scrollbar pb-2">
+                                {getSuggestedTags(profile.trade_category)
+                                    .filter(s => !(profile.service_options || []).includes(s))
+                                    .map((service, i) => (
+                                        <button
+                                            key={i}
+                                            type="button"
+                                            onClick={() => {
+                                                const newServices = [...(profile.service_options || []), service];
+                                                onChange({ service_options: newServices });
+                                            }}
+                                            className="text-xs font-medium bg-zinc-950 border border-zinc-800 text-slate-400 hover:text-slate-200 hover:border-brand-amber px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 group"
+                                        >
+                                            <Plus className="w-3 h-3 text-zinc-600 group-hover:text-brand-amber transition-colors" />
+                                            {service}
+                                        </button>
+                                    ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Suggested Services (Fuzzy Search Results) */}
                     {serviceInput.trim().length > 0 && (

@@ -11,6 +11,9 @@ export async function updateProfile(formData: {
     phone_number?: string
     license_number?: string
     is_emergency_available?: boolean
+    is_licensed_insured?: boolean
+    insurance_document_url?: string
+    verification_status?: string
     links?: any
     profile_image_url?: string
     photo_library_urls?: string[]

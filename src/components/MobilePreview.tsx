@@ -47,13 +47,15 @@ export default function MobilePreview({ profile }: { profile: any }) {
 
                 {/* Trust Badges */}
                 <div className="px-6 py-5 bg-zinc-950 flex justify-between gap-2 border-b border-zinc-900">
-                    <div className="flex flex-col items-center gap-1.5 flex-1">
-                        <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-                            <ShieldCheck className="w-4 h-4 text-brand-amber" />
+                    <div className={`flex flex-col items-center gap-1.5 flex-1 ${!profile.is_licensed_insured ? 'opacity-40 grayscale' : ''}`}>
+                        <div className={`w-9 h-9 rounded-full border flex items-center justify-center shadow-inner ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-zinc-900 border-zinc-800'}`}>
+                            <ShieldCheck className={`w-4 h-4 ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'text-emerald-400' : 'text-brand-amber'}`} />
                         </div>
-                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">Licensed<br />Insured</span>
+                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">
+                            {profile.is_licensed_insured && profile.verification_status !== 'Verified' ? 'Self-Reported\nLicensed' : 'Licensed\nInsured'}
+                        </span>
                     </div>
-                    <div className="flex flex-col items-center gap-1.5 flex-1">
+                    <div className="flex flex-col items-center gap-1.5 flex-1 opacity-40 grayscale">
                         <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
                             <Award className="w-4 h-4 text-blue-400" />
                         </div>

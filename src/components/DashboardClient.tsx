@@ -21,6 +21,10 @@ export default function DashboardClient({ initialProfile }: { initialProfile: an
                 bio: profile.bio,
                 phone_number: profile.phone_number,
                 license_number: profile.license_number,
+                is_emergency_available: profile.is_emergency_available,
+                is_licensed_insured: profile.is_licensed_insured,
+                insurance_document_url: profile.insurance_document_url,
+                verification_status: profile.verification_status,
                 links: profile.links || [],
                 profile_image_url: profile.profile_image_url,
                 photo_library_urls: profile.photo_library_urls || [],
@@ -59,9 +63,15 @@ export default function DashboardClient({ initialProfile }: { initialProfile: an
             </div>
 
             {/* Right Column: Live Preview */}
-            <div className="hidden lg:flex items-center justify-center bg-zinc-950/30 border border-zinc-800 rounded-2xl p-6 overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-zinc-900/50 to-transparent pointer-events-none"></div>
-                <MobilePreview profile={profile} />
+            <div className="hidden lg:flex items-center justify-center bg-zinc-950/30 border border-zinc-800 rounded-2xl p-6 overflow-hidden relative group">
+                {/* Glowing aesthetic backdrop */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] bg-brand-amber/10 blur-[100px] rounded-full z-0 pointer-events-none transition-all duration-700 group-hover:bg-brand-amber/20 group-hover:w-[90%] group-hover:h-[90%]"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-zinc-900/50 to-transparent pointer-events-none z-0"></div>
+
+                {/* Scaled up phone container */}
+                <div className="z-10 w-full max-w-[360px] transform transition-transform duration-500 hover:scale-[1.05] drop-shadow-[0_0_30px_rgba(245,158,11,0.15)] group-hover:drop-shadow-[0_0_50px_rgba(245,158,11,0.25)] flex items-center justify-center h-full">
+                    <MobilePreview profile={profile} />
+                </div>
             </div>
         </div>
     )

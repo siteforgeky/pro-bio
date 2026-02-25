@@ -14,8 +14,21 @@ export default function Home() {
           </span>
         </div>
         <nav className="flex items-center gap-4">
-          <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Log In</Link>
-          <Link href="/onboarding" className="text-sm font-medium bg-brand-amber text-zinc-950 px-4 py-2 rounded-md hover:bg-amber-400 transition-colors font-bold">Get Started</Link>
+          <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden sm:block">Log In</Link>
+          <form action="/onboarding" className="flex items-center bg-zinc-900 border border-zinc-700/50 rounded-lg p-1 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-sm">
+            <div className="flex items-center px-2">
+              <span className="text-slate-400 text-sm font-medium hidden sm:inline">fixara.app/</span>
+              <input
+                type="text"
+                name="slug"
+                placeholder="yourcompany"
+                className="bg-transparent border-none outline-none text-slate-100 placeholder:text-zinc-600 font-bold text-sm w-[100px] sm:w-[130px]"
+              />
+            </div>
+            <button type="submit" className="bg-brand-amber text-zinc-950 px-3 py-1.5 rounded-md font-bold text-sm hover:bg-amber-400 transition-colors">
+              Claim
+            </button>
+          </form>
         </nav>
       </header>
 
