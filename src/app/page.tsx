@@ -10,7 +10,7 @@ export default function Home() {
         <div className="flex items-center gap-2">
           <Wrench className="w-6 h-6 text-brand-amber" />
           <span className="text-xl font-heading font-bold text-slate-100 tracking-wider">
-            PRO<span className="text-brand-amber">BIO</span>
+            FIX<span className="text-brand-amber">ARA</span>
           </span>
         </div>
         <nav className="flex items-center gap-4">
@@ -34,7 +34,7 @@ export default function Home() {
           </p>
           <form action="/onboarding" className="flex flex-col sm:flex-row items-center w-full max-w-lg mx-auto bg-zinc-900 border border-zinc-700/50 rounded-xl p-1.5 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-xl">
             <div className="flex items-center flex-1 px-4 w-full sm:w-auto h-14 sm:h-auto">
-              <span className="text-slate-400 text-lg font-medium pr-1">probio.app/</span>
+              <span className="text-slate-400 text-lg font-medium pr-1">fixara.app/</span>
               <input
                 type="text"
                 name="slug"
@@ -107,7 +107,7 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-zinc-900 py-12 pb-32 md:pb-12 text-center text-slate-500 text-sm relative z-10">
-        <p>&copy; {new Date().getFullYear()} ProBio. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Fixara. All rights reserved.</p>
       </footer>
 
       {/* Mobile Sticky CTA */}

@@ -30,7 +30,7 @@ export default function LoginPage() {
                 <div className="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center mb-4 border border-zinc-700">
                     <Wrench className="w-6 h-6 text-brand-amber" />
                 </div>
-                <h1 className="text-3xl font-heading font-black text-slate-100">Welcome to ProBio</h1>
+                <h1 className="text-3xl font-heading font-black text-slate-100">Welcome to Fixara</h1>
                 <p className="text-slate-400 mt-2 text-center mb-8">Sign in to your account</p>
 
                 <SignIn

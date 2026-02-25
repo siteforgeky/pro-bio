@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Oswald, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ProBio",
+  title: "Fixara",
   description: "The Website for Pros who Hate Websites.",
 };
 
@@ -35,6 +36,7 @@ export default function RootLayout({
           className={`${inter.variable} ${oswald.variable} ${geistMono.variable} antialiased font-sans bg-zinc-950 text-slate-100`}
         >
           {children}
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
