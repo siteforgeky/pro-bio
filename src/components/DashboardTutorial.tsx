@@ -36,12 +36,12 @@ export default function DashboardTutorial({ onComplete }: { onComplete: () => vo
         setSaving(true)
         try {
             await updateProfile({ has_seen_tutorial: true })
-            setIsOpen(false)
-            onComplete()
         } catch (e) {
             console.error("Failed to dismiss tutorial:", e)
         } finally {
             setSaving(false)
+            setIsOpen(false)
+            onComplete()
         }
     }
 
