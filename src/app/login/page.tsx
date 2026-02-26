@@ -1,4 +1,4 @@
-import { Wrench } from 'lucide-react'
+import { Logo } from '@/components/Logo'
 import Link from 'next/link'
 import { SignIn } from '@clerk/nextjs'
 
@@ -27,9 +27,7 @@ export default function LoginPage() {
             </Link>
 
             <div className="flex flex-col items-center mb-8">
-                <div className="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center mb-4 border border-zinc-700">
-                    <Wrench className="w-6 h-6 text-brand-amber" />
-                </div>
+                <Logo className="mb-4 justify-center" />
                 <h1 className="text-3xl font-heading font-black text-slate-100">Welcome to Fixara</h1>
                 <p className="text-slate-400 mt-2 text-center mb-8">Sign in to your account</p>
 

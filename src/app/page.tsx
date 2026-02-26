@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ArrowRight, Wrench, ShieldCheck, Zap, Star } from 'lucide-react';
+import { Logo } from '@/components/Logo';
+import { ArrowRight, Zap, Star, ShieldCheck, Wrench } from 'lucide-react';
 import { ResultsMarquee } from '@/components/ResultsMarquee';
 
 export default function Home() {
@@ -7,12 +8,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <Wrench className="w-6 h-6 text-brand-amber" />
-          <span className="text-xl font-heading font-bold text-slate-100 tracking-wider">
-            FIX<span className="text-brand-amber">ARA</span>
-          </span>
-        </div>
+        <Logo />
         <nav className="flex items-center gap-4">
           <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden sm:block">Log In</Link>
           <form action="/onboarding" className="flex items-center bg-zinc-900 border border-zinc-700/50 rounded-lg p-1 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-sm">

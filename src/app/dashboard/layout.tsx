@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Wrench, LayoutDashboard, Settings } from 'lucide-react'
+import { Logo } from '@/components/Logo'
+import { LayoutDashboard, Settings } from 'lucide-react'
 import { auth } from '@clerk/nextjs/server'
 import { UserButton } from '@clerk/nextjs'
 
@@ -31,12 +32,7 @@ export default async function DashboardLayout({
     return (
         <div className="min-h-screen flex flex-col md:flex-row bg-zinc-950">
             <aside className="w-full md:w-64 border-r border-zinc-800 bg-zinc-950/50 p-6 hidden md:flex flex-col">
-                <div className="flex items-center gap-2 mb-10">
-                    <Wrench className="w-6 h-6 text-brand-amber" />
-                    <span className="text-xl font-heading font-bold text-slate-100 tracking-wider">
-                        PRO<span className="text-brand-amber">BIO</span>
-                    </span>
-                </div>
+                <Logo className="mb-10" />
 
                 <nav className="flex-1 flex flex-col gap-2">
                     <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-zinc-900 text-slate-300 hover:text-slate-100 font-medium transition-colors">
@@ -63,12 +59,7 @@ export default async function DashboardLayout({
 
             {/* Mobile nav */}
             <div className="md:hidden border-b border-zinc-800 p-4 flex justify-between items-center bg-zinc-950">
-                <div className="flex items-center gap-2">
-                    <Wrench className="w-6 h-6 text-brand-amber" />
-                    <span className="flex-1 text-xl font-heading font-bold text-slate-100 tracking-wider">
-                        PRO<span className="text-brand-amber">BIO</span>
-                    </span>
-                </div>
+                <Logo />
                 <div className="flex items-center gap-4 text-sm font-medium">
                     <Link href="/dashboard" className="text-slate-300">Builder</Link>
                     <Link href="/dashboard/settings" className="text-slate-300">Settings</Link>
