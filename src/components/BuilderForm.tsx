@@ -361,7 +361,7 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {(profile.photo_library_urls || []).map((url: string, i: number) => (
-                        <div key={i} className="relative aspect- квадрат square rounded-xl overflow-hidden border border-zinc-800 group bg-zinc-900 aspect-square">
+                        <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-zinc-800 group bg-zinc-900">
                             <Image src={url} alt={`Gallery Image ${i + 1}`} fill className="object-cover" />
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                 <button

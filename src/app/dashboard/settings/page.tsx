@@ -26,8 +26,13 @@ export default async function SettingsPage() {
                 <div className="p-4 border-b border-zinc-800 bg-zinc-950/50">
                     <h2 className="font-medium text-slate-100">Preferences</h2>
                 </div>
-                <div className="p-6">
-                    <SettingsClient isEmergencyAvailable={!!profile.is_emergency_available} />
+                <div className="p-2 sm:p-6">
+                    <SettingsClient
+                        isEmergencyAvailable={!!profile.is_emergency_available}
+                        acceptsCreditCards={!!profile.accepts_credit_cards}
+                        offersFinancing={!!profile.offers_financing}
+                        freeConsultations={!!profile.free_consultations}
+                    />
                 </div>
             </div>
         </div>

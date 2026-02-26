@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import MobilePreview from './MobilePreview'
 import BuilderForm from './BuilderForm'
+import DashboardTutorial from './DashboardTutorial'
 import { updateProfile } from '@/app/dashboard/actions'
-import { Save, AlertCircle } from 'lucide-react'
+import { Save, Sparkles } from 'lucide-react'
 
 export default function DashboardClient({ initialProfile }: { initialProfile: any }) {
     const [profile, setProfile] = useState(initialProfile)
@@ -25,6 +26,7 @@ export default function DashboardClient({ initialProfile }: { initialProfile: an
                 is_licensed_insured: profile.is_licensed_insured,
                 insurance_document_url: profile.insurance_document_url,
                 verification_status: profile.verification_status,
+                has_seen_tutorial: profile.has_seen_tutorial,
                 links: profile.links || [],
                 profile_image_url: profile.profile_image_url,
                 photo_library_urls: profile.photo_library_urls || [],
@@ -42,22 +44,28 @@ export default function DashboardClient({ initialProfile }: { initialProfile: an
 
     return (
         <div className="grid lg:grid-cols-2 gap-8 flex-1 min-h-0 pb-10">
+            {!profile.has_seen_tutorial && (
+                <DashboardTutorial onComplete={() => setProfile({ ...profile, has_seen_tutorial: true })} />
+            )}
+
             {/* Left Column: Edit Fields */}
-            <div className="flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden h-full">
-                <div className="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-950/50">
-                    <h2 className="font-medium text-slate-100 flex items-center gap-2">
-                        Editor
-                        {message && <span className="text-xs text-brand-amber ml-2">{message}</span>}
+            <div className="flex flex-col bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-3xl overflow-hidden h-full shadow-2xl relative">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-amber/30 to-transparent"></div>
+                <div className="p-5 border-b border-zinc-800/60 flex justify-between items-center bg-zinc-950/60 backdrop-blur-sm relative z-10">
+                    <h2 className="font-heading font-bold text-slate-100 flex items-center gap-2.5 text-lg">
+                        <Sparkles className="w-5 h-5 text-brand-amber" />
+                        Live Editor
+                        {message && <span className="text-xs font-medium text-brand-amber ml-3 px-2 py-0.5 rounded-full bg-brand-amber/10 border border-brand-amber/20 animate-in fade-in zoom-in-95">{message}</span>}
                     </h2>
                     <button
                         onClick={handleSave}
                         disabled={saving}
-                        className="bg-brand-amber text-zinc-950 px-4 py-1.5 rounded-md font-bold text-sm hover:bg-amber-400 transition-colors flex items-center gap-2 disabled:opacity-50"
+                        className="bg-brand-amber text-zinc-950 px-5 py-2 rounded-xl font-black text-sm hover:bg-amber-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] flex items-center gap-2 disabled:opacity-50 disabled:shadow-none"
                     >
                         <Save className="w-4 h-4" /> {saving ? 'Saving...' : 'Save Changes'}
                     </button>
                 </div>
-                <div className="p-6 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="p-6 md:p-8 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative z-0">
                     <BuilderForm profile={profile} onChange={(updates: any) => setProfile({ ...profile, ...updates })} />
                 </div>
             </div>

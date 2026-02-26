@@ -19,16 +19,19 @@ export interface Database {
                     license_number: string | null
                     phone_number: string | null
                     bio: string | null
-                    is_emergency_available: boolean | null
                     profile_image_url: string | null
-                    links: Json | null
                     photo_library_urls: string[] | null
+                    links: Json | null
                     service_options: string[] | null
+                    is_emergency_available: boolean | null
                     is_licensed_insured: boolean | null
                     insurance_document_url: string | null
                     verification_status: string | null
-                    is_pro: boolean | null
-                    created_at: string | null
+                    accepts_credit_cards: boolean | null
+                    offers_financing: boolean | null
+                    free_consultations: boolean | null
+                    has_seen_tutorial: boolean | null
+                    created_at: string
                     updated_at: string | null
                 }
                 Insert: {

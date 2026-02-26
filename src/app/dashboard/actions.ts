@@ -14,6 +14,10 @@ export async function updateProfile(formData: {
     is_licensed_insured?: boolean
     insurance_document_url?: string
     verification_status?: string
+    accepts_credit_cards?: boolean
+    offers_financing?: boolean
+    free_consultations?: boolean
+    has_seen_tutorial?: boolean
     links?: any
     profile_image_url?: string
     photo_library_urls?: string[]
