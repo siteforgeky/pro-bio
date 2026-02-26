@@ -135,11 +135,17 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                 {links.length > 0 && (
                     <div className="px-8 py-8 space-y-4 bg-zinc-950">
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-5">Verified Links</h3>
-                        {links.map((link: any, i: number) => (
-                            <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full py-4 px-6 bg-zinc-900 hover:bg-zinc-800 rounded-xl text-sm font-bold text-slate-100 border border-zinc-800 transition-all hover:border-zinc-700 shadow-sm relative overflow-hidden group">
-                                <span className="relative z-10">{link.title}</span>
-                            </a>
-                        ))}
+                        {links.map((link: any, i: number) => {
+                            let domain = link.url;
+                            try { domain = new URL(link.url).hostname; } catch { }
+
+                            return (
+                                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center w-full py-4 px-6 bg-zinc-900 hover:bg-zinc-800 rounded-xl text-sm font-bold text-slate-100 border border-zinc-800 transition-all hover:border-zinc-700 shadow-sm relative overflow-hidden group">
+                                    <img src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`} alt="" className="w-5 h-5 mr-3 rounded-sm" />
+                                    <span className="relative z-10 flex-1 text-center pr-8">{link.title}</span>
+                                </a>
+                            );
+                        })}
                     </div>
                 )}
 

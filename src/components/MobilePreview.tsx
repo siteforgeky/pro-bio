@@ -83,11 +83,17 @@ export default function MobilePreview({ profile }: { profile: any }) {
                 {links.length > 0 && (
                     <div className="px-6 py-8 space-y-3 bg-zinc-950">
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Links</h3>
-                        {links.map((link: any, i: number) => (
-                            <a key={i} href={link.url || '#'} onClick={e => e.preventDefault()} className="flex justify-center w-full py-4 px-4 bg-zinc-900 rounded-xl text-sm font-bold text-slate-100 border border-zinc-800 shadow-sm relative overflow-hidden group">
-                                <span className="relative z-10">{link.title || 'Link Title'}</span>
-                            </a>
-                        ))}
+                        {links.map((link: any, i: number) => {
+                            let domain = link.url;
+                            try { domain = new URL(link.url).hostname; } catch { }
+
+                            return (
+                                <a key={i} href={link.url || '#'} onClick={e => e.preventDefault()} className="flex items-center w-full py-4 px-4 bg-zinc-900 rounded-xl text-sm font-bold text-slate-100 border border-zinc-800 shadow-sm relative overflow-hidden group hover:border-zinc-700 transition-colors">
+                                    <img src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`} alt="" className="w-5 h-5 mr-3 rounded-sm" />
+                                    <span className="relative z-10 flex-1 text-center pr-8">{link.title || 'Link Title'}</span>
+                                </a>
+                            );
+                        })}
                     </div>
                 )}
             </div>
