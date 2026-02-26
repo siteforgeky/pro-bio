@@ -22,7 +22,7 @@ export default function Home() {
               />
             </div>
             <button type="submit" className="bg-brand-amber text-zinc-950 px-3 py-1.5 rounded-md font-bold text-sm hover:bg-amber-400 transition-colors">
-              Claim
+              Sign Up
             </button>
           </form>
         </nav>
@@ -61,7 +61,7 @@ export default function Home() {
                 />
               </div>
               <button type="submit" className="w-full sm:w-auto mt-2 sm:mt-0 flex items-center justify-center gap-2 bg-brand-amber text-zinc-950 px-8 h-14 rounded-lg font-black text-lg hover:bg-amber-400 transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)]">
-                Claim My Page <ArrowRight className="w-5 h-5" />
+                Sign Up <ArrowRight className="w-5 h-5" />
               </button>
             </form>
 
@@ -191,7 +191,7 @@ export default function Home() {
                 <h3 className="text-xl font-heading font-bold text-slate-100 mb-3">Live in 3 Minutes</h3>
                 <p className="text-slate-400">Forget dragging and dropping. Answer three questions, and your business card is live on the internet.</p>
                 <div className="mt-4 flex items-center gap-2 text-[10px] font-mono font-bold text-brand-amber bg-brand-amber/10 px-3 py-1.5 rounded-full border border-brand-amber/20">
-                  <span>1. CLAIM</span> <ArrowRight className="w-3 h-3 text-zinc-500" /> <span>2. DETAILS</span> <ArrowRight className="w-3 h-3 text-zinc-500" /> <span>3. LIVE</span>
+                  <span>1. SIGN UP</span> <ArrowRight className="w-3 h-3 text-zinc-500" /> <span>2. DETAILS</span> <ArrowRight className="w-3 h-3 text-zinc-500" /> <span>3. LIVE</span>
                 </div>
               </div>
               <div className="flex flex-col items-center text-center">
@@ -216,7 +216,11 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-zinc-900 py-12 pb-32 md:pb-12 text-center text-slate-500 text-sm relative z-10">
+      <footer className="border-t border-zinc-900 py-12 pb-32 md:pb-12 text-center text-slate-500 text-sm relative z-10 flex flex-col items-center gap-4">
+        <div className="flex gap-6">
+          <Link href="/tos" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+        </div>
         <p>&copy; {new Date().getFullYear()} Fixara. All rights reserved.</p>
       </footer>
 
@@ -224,7 +228,7 @@ export default function Home() {
       <div className="fixed bottom-0 left-0 w-full p-4 pb-6 bg-gradient-to-t from-zinc-950 via-zinc-950/95 to-transparent pt-12 z-50 md:hidden flex justify-center pointer-events-none">
         <div className="pointer-events-auto w-full max-w-sm">
           <Link href="/onboarding" className="w-full flex items-center justify-center gap-2 bg-brand-amber text-zinc-950 h-16 rounded-2xl font-black text-xl shadow-[0_4px_30px_rgba(245,158,11,0.3)] active:scale-95 transition-all">
-            Claim Profile <ArrowRight className="w-6 h-6" />
+            Sign Up <ArrowRight className="w-6 h-6" />
           </Link>
         </div>
       </div>

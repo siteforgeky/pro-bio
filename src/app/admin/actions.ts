@@ -10,17 +10,16 @@ async function isAdmin() {
     return userId && userId === process.env.ADMIN_USER_ID;
 }
 
-export async function getPendingVerifications() {
+export async function getAllVerifications() {
     if (!(await isAdmin())) throw new Error("Unauthorized");
 
     const supabase = await createClient();
 
-    // Fetch profiles that claim to be licensed/insured but aren't verified yet
+    // Fetch all profiles that claim to be licensed/insured
     const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('is_licensed_insured', true)
-        .eq('verification_status', 'Unverified');
+        .eq('is_licensed_insured', true);
 
     if (error) {
         console.error("Error fetching pending verifications:", error);
