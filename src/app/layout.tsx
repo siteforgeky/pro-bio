@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fixara",
-  description: "The Website for Pros who Hate Websites.",
+  title: "Rovult",
+  description: "The Link-in-Bio for Blue-Collar Pros",
 };
 
 export default function RootLayout({

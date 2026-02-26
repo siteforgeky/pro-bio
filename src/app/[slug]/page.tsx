@@ -74,7 +74,7 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                             {profile.is_licensed_insured && profile.verification_status !== 'Verified' ? 'Self-Reported\nLicensed' : 'Licensed & Insured'}
                             <br />
                             <span className="text-[8px] opacity-70">
-                                {profile.is_licensed_insured && profile.verification_status === 'Verified' ? '(Verified by Fixara)' : '(Provided by Pro)'}
+                                {profile.is_licensed_insured && profile.verification_status === 'Verified' ? '(Verified by Rovult)' : '(Provided by Pro)'}
                             </span>
                         </span>
                     </div>
@@ -174,10 +174,10 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
 
             <div className="mt-12 text-center pb-24 px-8 max-w-sm mx-auto">
                 <p className="text-[10px] text-zinc-600 mb-6 leading-relaxed">
-                    Fixara provides a platform for pros to display their credentials. We recommend all users verify licenses and insurance directly with the provider before starting work.
+                    Rovult provides a platform for pros to display their credentials. We recommend all users verify licenses and insurance directly with the provider before starting work.
                 </p>
                 <Link href="/" className="text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors inline-flex items-center gap-1.5 opacity-60 hover:opacity-100">
-                    Powered by <span className="text-brand-amber font-heading text-sm">FIXARA</span>
+                    Powered by <span className="text-brand-amber font-heading text-sm">ROVULT</span>
                 </Link>
             </div>
         </div>

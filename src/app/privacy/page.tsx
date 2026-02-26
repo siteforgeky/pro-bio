@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
 
             <h1 className="text-4xl font-heading font-black mb-6">Privacy Policy</h1>
             <div className="prose prose-invert max-w-none text-slate-300">
-                <p>At Fixara, we value your privacy and aim to be transparent about how we process your information.</p>
+                <p>At Rovult, we value your privacy and aim to be transparent about how we process your information.</p>
 
                 <h2 className="text-xl font-bold mt-8 mb-4 text-white">1. Information We Collect</h2>
                 <p>We collect basic business information you provide during signup, such as business name, phone number, trades, and optional licenses or insurance documents.</p>

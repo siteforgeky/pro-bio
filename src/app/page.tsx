@@ -13,7 +13,7 @@ export default function Home() {
           <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden sm:block">Log In</Link>
           <form action="/onboarding" className="flex items-center bg-zinc-900 border border-zinc-700/50 rounded-lg p-1 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-sm">
             <div className="flex items-center px-2">
-              <span className="text-slate-400 text-sm font-medium hidden sm:inline">fixara.app/</span>
+              <span className="text-slate-400 text-sm font-medium hidden sm:inline">rovult.com/</span>
               <input
                 type="text"
                 name="slug"
@@ -52,7 +52,7 @@ export default function Home() {
 
             <form action="/onboarding" className="flex flex-col sm:flex-row items-center w-full max-w-lg bg-zinc-900 border border-zinc-700/50 rounded-xl p-1.5 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-xl">
               <div className="flex items-center flex-1 px-4 w-full sm:w-auto h-14 sm:h-auto">
-                <span className="text-slate-400 text-lg font-medium pr-1">fixara.app/</span>
+                <span className="text-slate-400 text-lg font-medium pr-1">rovult.com/</span>
                 <input
                   type="text"
                   name="slug"
@@ -221,7 +221,7 @@ export default function Home() {
           <Link href="/tos" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
           <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
         </div>
-        <p>&copy; {new Date().getFullYear()} Fixara. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Rovult. All rights reserved.</p>
       </footer>
 
       {/* Mobile Sticky CTA */}

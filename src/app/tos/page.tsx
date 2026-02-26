@@ -12,10 +12,10 @@ export default function TermsOfService() {
 
             <h1 className="text-4xl font-heading font-black mb-6">Terms of Service</h1>
             <div className="prose prose-invert max-w-none text-slate-300">
-                <p>Welcome to Fixara. By accessing or using our website and services, you agree to be bound by these Terms of Service.</p>
+                <p>Welcome to Rovult. By accessing or using our website and services, you agree to be bound by these Terms of Service.</p>
 
                 <h2 className="text-xl font-bold mt-8 mb-4 text-white">1. Service Description</h2>
-                <p>Fixara provides a simple link-in-bio style website builder targeted at blue-collar professionals. You are responsible for ensuring your business info is accurate.</p>
+                <p>Rovult provides a simple link-in-bio style website builder targeted at blue-collar professionals. You are responsible for ensuring your business info is accurate.</p>
 
                 <h2 className="text-xl font-bold mt-8 mb-4 text-white">2. Data & Privacy</h2>
                 <p>We care about your privacy. Please review our Privacy Policy to understand how we collect and use your data.</p>
