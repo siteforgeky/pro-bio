@@ -89,16 +89,6 @@ export default function Home() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[120%] bg-brand-amber/10 blur-[100px] rounded-full z-0"></div>
 
             <div className="relative w-full max-w-[320px] mx-auto z-10">
-              {/* Floating badges */}
-              <div className="absolute -left-6 md:-left-12 top-20 bg-zinc-900 border border-emerald-500/30 text-emerald-400 text-[10px] md:text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full z-20 shadow-2xl whitespace-nowrap rotate-[-6deg] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-                <span className="bg-emerald-500/20 px-1 py-0.5 rounded text-emerald-300 mr-1.5">★</span> Live in 3 Mins
-              </div>
-              <div className="absolute -right-4 md:-right-8 top-[45%] bg-brand-amber text-zinc-950 text-[10px] md:text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full z-20 shadow-2xl whitespace-nowrap rotate-[6deg] border border-amber-300 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-                Instantly Trustworthy
-              </div>
-              <div className="absolute -left-4 md:-left-8 bottom-32 bg-zinc-900 border border-blue-500/30 text-blue-400 text-[10px] md:text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full z-20 shadow-2xl whitespace-nowrap rotate-[-3deg] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
-                Look Professional
-              </div>
 
               {/* Phone Frame Mockup */}
               <div className="bg-zinc-950 border-[8px] border-zinc-800 rounded-[3rem] overflow-hidden shadow-2xl relative aspect-[9/19] ring-1 ring-zinc-700">
