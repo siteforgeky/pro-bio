@@ -48,8 +48,7 @@ export default function SignUpPage() {
                             footerActionLink: "text-brand-amber hover:text-amber-400"
                         }
                     }}
-                    routing="path"
-                    path="/sign-up"
+                    routing="hash"
                     fallbackRedirectUrl="/onboarding"
                 />
             </div>

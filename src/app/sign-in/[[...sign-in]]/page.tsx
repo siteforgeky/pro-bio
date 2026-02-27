@@ -48,8 +48,7 @@ export default function SignInPage() {
                             footerActionLink: "text-brand-amber hover:text-amber-400"
                         }
                     }}
-                    routing="path"
-                    path="/sign-in"
+                    routing="hash"
                     fallbackRedirectUrl="/dashboard"
                 />
             </div>
