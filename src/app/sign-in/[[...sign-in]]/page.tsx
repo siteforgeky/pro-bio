@@ -2,7 +2,7 @@ import { Logo } from '@/components/Logo'
 import Link from 'next/link'
 import { SignIn } from '@clerk/nextjs'
 
-export default function LoginPage() {
+export default function SignInPage() {
     return (
         <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center mx-auto min-h-screen">
             <Link
@@ -48,7 +48,8 @@ export default function LoginPage() {
                             footerActionLink: "text-brand-amber hover:text-amber-400"
                         }
                     }}
-                    routing="hash"
+                    routing="path"
+                    path="/sign-in"
                     fallbackRedirectUrl="/dashboard"
                 />
             </div>

@@ -8,7 +8,7 @@ export default async function OnboardingPage() {
     const { userId } = await auth()
 
     if (!userId) {
-        redirect('/login')
+        redirect('/sign-in')
     }
 
     const supabase = await createClient()

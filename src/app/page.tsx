@@ -10,7 +10,7 @@ export default function Home() {
       <header className="px-6 py-4 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
         <Logo />
         <nav className="flex items-center gap-4">
-          <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden sm:block">Log In</Link>
+          <Link href="/sign-in" className="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden sm:block">Log In</Link>
           <form action="/onboarding" className="flex items-center bg-zinc-900 border border-zinc-700/50 rounded-lg p-1 focus-within:border-brand-amber focus-within:ring-1 focus-within:ring-brand-amber transition-all shadow-sm">
             <div className="flex items-center px-2">
               <span className="text-slate-400 text-sm font-medium hidden sm:inline">rovult.com/</span>
