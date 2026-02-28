@@ -40,7 +40,7 @@ export function ImageUploader({
         setIsUploading(true);
 
         try {
-            const clerkToken = await getToken({ template: 'supabase' });
+            const clerkToken = await getToken({ template: 'supabase', skipCache: true });
             const supabase = createClient(clerkToken);
 
             // Create a unique file path tied to the user
