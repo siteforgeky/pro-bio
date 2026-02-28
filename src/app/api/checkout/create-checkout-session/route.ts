@@ -15,7 +15,6 @@ export async function POST() {
 
         const session = await stripe.checkout.sessions.create({
             client_reference_id: userId,
-            ui_mode: 'embedded',
             mode: 'subscription',
             payment_method_types: ['card'],
             line_items: [
@@ -24,11 +23,12 @@ export async function POST() {
                     quantity: 1,
                 },
             ],
-            // We will point back to our local /checkout/return route
-            return_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
+            // Point back to our local /checkout/return route
+            success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/settings`,
         });
 
-        return NextResponse.json({ client_secret: session.client_secret });
+        return NextResponse.json({ url: session.url });
     } catch (err: any) {
         console.error('Error creating checkout session:', err);
         return NextResponse.json({ error: err.message }, { status: 500 });

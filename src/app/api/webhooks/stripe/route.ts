@@ -61,6 +61,25 @@ export async function POST(req: Request) {
                 break;
             }
 
+            case 'invoice.paid': {
+                const invoice = event.data.object as any;
+
+                if (invoice.subscription) {
+                    const subscriptionId = invoice.subscription as string;
+                    const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
+
+                    await supabaseAdmin
+                        .from('profiles')
+                        .update({
+                            is_premium: subscription.status === 'active' || subscription.status === 'trialing',
+                            stripe_price_id: subscription.items.data[0]?.price.id,
+                            stripe_current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+                        })
+                        .eq('stripe_subscription_id', subscriptionId);
+                }
+                break;
+            }
+
             case 'customer.subscription.updated':
             case 'customer.subscription.deleted': {
                 const subscription = event.data.object as any;
