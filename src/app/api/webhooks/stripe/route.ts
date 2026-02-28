@@ -33,13 +33,23 @@ export async function POST(req: Request) {
             case 'checkout.session.completed': {
                 const session = event.data.object as Stripe.Checkout.Session;
 
-                // client_reference_id should contain the Clerk User ID
-                const userId = session.client_reference_id;
+                // client_reference_id should contain the Clerk User ID, but might be dropped in some v2 testmode flows
+                let userId = session.client_reference_id;
                 const subscriptionId = session.subscription as string;
                 const customerId = session.customer as string;
 
+                if (!userId && customerId) {
+                    // Fall back to retrieving the user ID from the customer metadata we set during creation
+                    try {
+                        const customer = await stripe.customers.retrieve(customerId) as any;
+                        userId = customer.metadata?.userId || null;
+                    } catch (e) {
+                        console.error('Failed to retrieve customer to fallback for userId', e);
+                    }
+                }
+
                 if (!userId) {
-                    console.error('No client_reference_id found in session');
+                    console.error('No userId found in session or customer metadata');
                     break;
                 }
 

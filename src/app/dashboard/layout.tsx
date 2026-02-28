@@ -45,12 +45,21 @@ export default async function DashboardLayout({
                     </Link>
                 </nav>
 
-                <div className="mt-auto mb-6">
-                    <Link href="/checkout" className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-brand-amber to-amber-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all hover:-translate-y-0.5">
-                        <Star className="w-4 h-4 fill-zinc-950" />
-                        Upgrade to Premium
-                    </Link>
-                </div>
+                {profile.is_premium ? (
+                    <div className="mt-auto mb-6">
+                        <div className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-zinc-900 border border-zinc-800 text-slate-300 font-medium cursor-default">
+                            <Star className="w-4 h-4 fill-brand-amber text-brand-amber" />
+                            Premium Active
+                        </div>
+                    </div>
+                ) : (
+                    <div className="mt-auto mb-6">
+                        <Link href="/checkout" className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-brand-amber to-amber-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all hover:-translate-y-0.5">
+                            <Star className="w-4 h-4 fill-zinc-950" />
+                            Upgrade to Premium
+                        </Link>
+                    </div>
+                )}
 
                 <div className="pt-6 border-t border-zinc-800 flex items-center gap-4">
                     <UserButton appearance={{
@@ -58,8 +67,13 @@ export default async function DashboardLayout({
                             userButtonAvatarBox: "w-10 h-10 border-2 border-zinc-800"
                         }
                     }} />
-                    <div className="text-sm font-medium text-slate-300 truncate flex-1" title={profile.business_name}>
-                        {profile.business_name}
+                    <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-slate-300 truncate flex items-center gap-1.5" title={profile.business_name}>
+                            {profile.business_name}
+                            {profile.is_premium && (
+                                <span className="flex-shrink-0 flex items-center gap-0.5 text-[9px] font-bold uppercase tracking-widest text-brand-amber bg-brand-amber/10 px-1.5 py-0.5 rounded border border-brand-amber/20">PRO</span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -73,9 +87,15 @@ export default async function DashboardLayout({
                         <Link href="/dashboard/settings" className="text-slate-300">Settings</Link>
                         <UserButton />
                     </div>
-                    <Link href="/checkout" className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-brand-amber/10 border border-brand-amber/30 text-brand-amber text-xs font-bold uppercase tracking-wide">
-                        <Star className="w-3.5 h-3.5 fill-brand-amber" /> Premium
-                    </Link>
+                    {profile.is_premium ? (
+                        <div className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-slate-400 text-xs font-medium cursor-default">
+                            <Star className="w-3.5 h-3.5 fill-brand-amber text-brand-amber" /> Premium Active
+                        </div>
+                    ) : (
+                        <Link href="/checkout" className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-brand-amber/10 border border-brand-amber/30 text-brand-amber text-xs font-bold uppercase tracking-wide">
+                            <Star className="w-3.5 h-3.5 fill-brand-amber" /> Premium
+                        </Link>
+                    )}
                 </div>
             </div>
 
