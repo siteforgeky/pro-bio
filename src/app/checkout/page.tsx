@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
-import CheckoutForm from "@/components/CheckoutForm";
+import { EmbeddedCheckoutProvider, EmbeddedCheckout } from "@stripe/react-stripe-js";
 
 // Replace with your actual valid test key during testing if empty 
 const stripePromise = loadStripe(
@@ -31,9 +30,7 @@ export default function CheckoutPage() {
 
     return (
         <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
-            <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <h1 className="text-2xl font-bold text-slate-50 mt-2 mb-6 text-center">Checkout</h1>
-
+            <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
                 {error ? (
                     <div className="p-4 text-red-500 bg-red-950/20 rounded-xl text-center">
                         <p className="font-semibold">Configuration Error:</p>
@@ -45,28 +42,12 @@ export default function CheckoutPage() {
                         Loading checkout...
                     </div>
                 ) : (
-                    <CheckoutProvider
+                    <EmbeddedCheckoutProvider
                         stripe={stripePromise}
-                        options={{
-                            clientSecret,
-                            elementsOptions: {
-                                appearance: {
-                                    theme: 'night',
-                                    variables: {
-                                        colorPrimary: '#f59e0b',
-                                        colorBackground: '#1e293b',
-                                        colorText: '#f8fafc',
-                                        colorDanger: '#ef4444',
-                                        fontFamily: 'system-ui, sans-serif',
-                                        spacingUnit: '4px',
-                                        borderRadius: '8px',
-                                    }
-                                }
-                            }
-                        }}
+                        options={{ clientSecret }}
                     >
-                        <CheckoutForm />
-                    </CheckoutProvider>
+                        <EmbeddedCheckout className="w-full" />
+                    </EmbeddedCheckoutProvider>
                 )}
             </div>
         </div>

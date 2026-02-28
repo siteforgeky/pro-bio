@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', {
 export async function POST() {
     try {
         const session = await stripe.checkout.sessions.create({
-            ui_mode: 'custom',
+            ui_mode: 'embedded',
             mode: 'payment',
             payment_method_types: ['card'],
             line_items: [
