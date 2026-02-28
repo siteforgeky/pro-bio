@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Logo } from '@/components/Logo'
-import { LayoutDashboard, Settings } from 'lucide-react'
+import { LayoutDashboard, Settings, Star } from 'lucide-react'
 import { auth } from '@clerk/nextjs/server'
 import { UserButton } from '@clerk/nextjs'
 
@@ -45,7 +45,14 @@ export default async function DashboardLayout({
                     </Link>
                 </nav>
 
-                <div className="mt-auto pt-6 border-t border-zinc-800 flex items-center gap-4">
+                <div className="mt-auto mb-6">
+                    <Link href="/checkout" className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-brand-amber to-amber-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all hover:-translate-y-0.5">
+                        <Star className="w-4 h-4 fill-zinc-950" />
+                        Upgrade to Premium
+                    </Link>
+                </div>
+
+                <div className="pt-6 border-t border-zinc-800 flex items-center gap-4">
                     <UserButton appearance={{
                         elements: {
                             userButtonAvatarBox: "w-10 h-10 border-2 border-zinc-800"
@@ -60,10 +67,15 @@ export default async function DashboardLayout({
             {/* Mobile nav */}
             <div className="md:hidden border-b border-zinc-800 p-4 flex justify-between items-center bg-zinc-950">
                 <Logo />
-                <div className="flex items-center gap-4 text-sm font-medium">
-                    <Link href="/dashboard" className="text-slate-300">Builder</Link>
-                    <Link href="/dashboard/settings" className="text-slate-300">Settings</Link>
-                    <UserButton />
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-end gap-3 text-sm font-medium">
+                        <Link href="/dashboard" className="text-slate-300">Builder</Link>
+                        <Link href="/dashboard/settings" className="text-slate-300">Settings</Link>
+                        <UserButton />
+                    </div>
+                    <Link href="/checkout" className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-brand-amber/10 border border-brand-amber/30 text-brand-amber text-xs font-bold uppercase tracking-wide">
+                        <Star className="w-3.5 h-3.5 fill-brand-amber" /> Premium
+                    </Link>
                 </div>
             </div>
 
