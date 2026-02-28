@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { auth } from '@clerk/nextjs/server';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', {
     apiVersion: '2026-01-28.clover' as any,
@@ -7,7 +8,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', {
 
 export async function POST() {
     try {
+        const { userId } = await auth();
+        if (!userId) {
+            return new NextResponse('Unauthorized', { status: 401 });
+        }
+
         const session = await stripe.checkout.sessions.create({
+            client_reference_id: userId,
             ui_mode: 'embedded',
             mode: 'subscription',
             payment_method_types: ['card'],

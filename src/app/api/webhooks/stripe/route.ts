@@ -1,0 +1,85 @@
+import { headers } from 'next/headers';
+import { NextResponse } from 'next/server';
+import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+    apiVersion: '2026-01-28.clover' as any,
+});
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+// Direct Supabase Admin Client since Webhooks aren't authenticated by Clerk 
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+export async function POST(req: Request) {
+    try {
+        const body = await req.text();
+        const signature = (await headers()).get('Stripe-Signature') as string;
+
+        let event: Stripe.Event;
+
+        try {
+            event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+        } catch (err: any) {
+            console.error(`Webhook signature verification failed: ${err.message}`);
+            return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+        }
+
+        switch (event.type) {
+            case 'checkout.session.completed': {
+                const session = event.data.object as Stripe.Checkout.Session;
+
+                // client_reference_id should contain the Clerk User ID
+                const userId = session.client_reference_id;
+                const subscriptionId = session.subscription as string;
+                const customerId = session.customer as string;
+
+                if (!userId) {
+                    console.error('No client_reference_id found in session');
+                    break;
+                }
+
+                // If this is a subscription, get the actual subscription data
+                if (subscriptionId) {
+                    const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
+
+                    await supabaseAdmin
+                        .from('profiles')
+                        .update({
+                            is_premium: subscription.status === 'active' || subscription.status === 'trialing',
+                            stripe_customer_id: customerId,
+                            stripe_subscription_id: subscriptionId,
+                            stripe_price_id: subscription.items.data[0]?.price.id,
+                            stripe_current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+                        })
+                        .eq('user_id', userId);
+                }
+                break;
+            }
+
+            case 'customer.subscription.updated':
+            case 'customer.subscription.deleted': {
+                const subscription = event.data.object as any;
+
+                await supabaseAdmin
+                    .from('profiles')
+                    .update({
+                        is_premium: subscription.status === 'active' || subscription.status === 'trialing',
+                        stripe_price_id: subscription.items.data[0]?.price.id,
+                        stripe_current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+                    })
+                    .eq('stripe_subscription_id', subscription.id);
+                break;
+            }
+        }
+
+        return NextResponse.json({ received: true });
+    } catch (err: any) {
+        console.error('Error handling webhook:', err);
+        return new NextResponse(`Internal Server Error: ${err.message}`, { status: 500 });
+    }
+}

@@ -32,6 +32,7 @@ export default async function SettingsPage() {
                         acceptsCreditCards={!!profile.accepts_credit_cards}
                         offersFinancing={!!profile.offers_financing}
                         freeConsultations={!!profile.free_consultations}
+                        isPremium={!!profile.is_premium}
                     />
                 </div>
             </div>

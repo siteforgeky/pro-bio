@@ -2,19 +2,22 @@
 
 import { useState } from 'react'
 import { updateProfile } from '@/app/dashboard/actions'
+import { Star } from 'lucide-react'
 
 interface SettingsProps {
     isEmergencyAvailable: boolean
     acceptsCreditCards: boolean
     offersFinancing: boolean
     freeConsultations: boolean
+    isPremium: boolean
 }
 
 export default function SettingsClient({
     isEmergencyAvailable,
     acceptsCreditCards,
     offersFinancing,
-    freeConsultations
+    freeConsultations,
+    isPremium
 }: SettingsProps) {
     const [settings, setSettings] = useState({
         is_emergency_available: isEmergencyAvailable,
@@ -48,25 +51,34 @@ export default function SettingsClient({
         stateKey: keyof typeof settings
     }) => {
         const enabled = settings[stateKey];
+        const isLocked = !isPremium;
         return (
-            <div className="flex items-start justify-between py-5 border-b border-zinc-900/50 last:border-0">
+            <div className={`flex items-start justify-between py-5 border-b border-zinc-900/50 last:border-0 ${isLocked ? 'opacity-80' : ''}`}>
                 <div>
-                    <h3 className="text-base font-bold text-slate-100 mb-1">{title}</h3>
+                    <h3 className="text-base font-bold text-slate-100 mb-1 flex items-center gap-2">
+                        {title}
+                        {isLocked && <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-brand-amber bg-brand-amber/10 px-2 py-0.5 rounded-full border border-brand-amber/20"><Star className="w-2.5 h-2.5 fill-brand-amber" /> PRO</span>}
+                    </h3>
                     <p className="text-sm text-slate-400 max-w-md">
                         {description}
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    onClick={() => handleToggle(stateKey)}
-                    disabled={saving}
-                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-amber focus:ring-offset-2 focus:ring-offset-zinc-900 ${enabled ? 'bg-brand-amber' : 'bg-zinc-700'}`}
-                    role="switch"
-                    aria-checked={enabled}
-                >
-                    <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${enabled ? 'translate-x-5' : 'translate-x-0'}`}></span>
-                </button>
+                <div className="flex flex-col items-end gap-2 pr-2">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (!isLocked) handleToggle(stateKey);
+                        }}
+                        disabled={saving || isLocked}
+                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-amber focus:ring-offset-2 focus:ring-offset-zinc-900 ${enabled ? 'bg-brand-amber' : 'bg-zinc-700'} ${isLocked ? 'cursor-not-allowed opacity-50' : ''}`}
+                        role="switch"
+                        aria-checked={enabled}
+                    >
+                        <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${enabled ? 'translate-x-5' : 'translate-x-0'}`}></span>
+                    </button>
+                    {isLocked && <a href="/checkout" className="text-[10px] font-medium text-brand-amber hover:text-amber-400 hover:underline">Unlock feature</a>}
+                </div>
             </div>
         )
     }

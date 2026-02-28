@@ -31,6 +31,11 @@ export interface Database {
                     offers_financing: boolean | null
                     free_consultations: boolean | null
                     has_seen_tutorial: boolean | null
+                    is_premium: boolean | null
+                    stripe_customer_id: string | null
+                    stripe_subscription_id: string | null
+                    stripe_price_id: string | null
+                    stripe_current_period_end: string | null
                     created_at: string
                     updated_at: string | null
                 }
@@ -52,6 +57,11 @@ export interface Database {
                     insurance_document_url?: string | null
                     verification_status?: string | null
                     is_pro?: boolean | null
+                    is_premium?: boolean | null
+                    stripe_customer_id?: string | null
+                    stripe_subscription_id?: string | null
+                    stripe_price_id?: string | null
+                    stripe_current_period_end?: string | null
                     created_at?: string | null
                     updated_at?: string | null
                 }
@@ -73,6 +83,11 @@ export interface Database {
                     insurance_document_url?: string | null
                     verification_status?: string | null
                     is_pro?: boolean | null
+                    is_premium?: boolean | null
+                    stripe_customer_id?: string | null
+                    stripe_subscription_id?: string | null
+                    stripe_price_id?: string | null
+                    stripe_current_period_end?: string | null
                     created_at?: string | null
                     updated_at?: string | null
                 }

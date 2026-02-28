@@ -29,7 +29,7 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                 {/* Cover Area */}
                 <div className="px-8 pt-10 pb-10 flex flex-col items-center text-center border-b border-zinc-900 bg-gradient-to-b from-zinc-900/50 to-zinc-950 relative">
 
-                    {profile.is_emergency_available && (
+                    {profile.is_premium && profile.is_emergency_available && (
                         <div className="absolute top-6 left-6 flex items-center gap-2 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm z-20">
                             <div className="relative flex items-center justify-center w-2.5 h-2.5">
                                 <span className="absolute w-full h-full rounded-full bg-red-500 animate-ping opacity-75"></span>
@@ -65,32 +65,35 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                 </div>
 
                 {/* Trust Badges */}
-                <div className="px-8 py-6 bg-zinc-950 flex justify-center gap-4 border-b border-zinc-900">
-                    <div className={`flex flex-col items-center gap-2 max-w-[100px] ${!profile.is_licensed_insured ? 'opacity-40 grayscale' : ''}`}>
-                        <div className={`w-12 h-12 rounded-full border flex items-center justify-center shadow-inner ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-zinc-900 border-zinc-800'}`}>
-                            <ShieldCheck className={`w-6 h-6 ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'text-emerald-400' : 'text-brand-amber'}`} />
-                        </div>
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">
-                            {profile.is_licensed_insured && profile.verification_status !== 'Verified' ? 'Self-Reported\nLicensed' : 'Licensed & Insured'}
-                            <br />
-                            <span className="text-[8px] opacity-70">
-                                {profile.is_licensed_insured && profile.verification_status === 'Verified' ? '(Verified by Rovult)' : '(Provided by Pro)'}
+                {/* Trust Badges */}
+                {profile.is_premium && (
+                    <div className="px-8 py-6 bg-zinc-950 flex justify-center gap-4 border-b border-zinc-900">
+                        <div className={`flex flex-col items-center gap-2 max-w-[100px] ${!profile.is_licensed_insured ? 'opacity-40 grayscale' : ''}`}>
+                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center shadow-inner ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-zinc-900 border-zinc-800'}`}>
+                                <ShieldCheck className={`w-6 h-6 ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'text-emerald-400' : 'text-brand-amber'}`} />
+                            </div>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">
+                                {profile.is_licensed_insured && profile.verification_status !== 'Verified' ? 'Self-Reported\nLicensed' : 'Licensed & Insured'}
+                                <br />
+                                <span className="text-[8px] opacity-70">
+                                    {profile.is_licensed_insured && profile.verification_status === 'Verified' ? '(Verified by Rovult)' : '(Provided by Pro)'}
+                                </span>
                             </span>
-                        </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
-                        <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-                            <Award className="w-6 h-6 text-blue-400" />
                         </div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">A+ BBB<br />Rating</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
-                        <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-                            <HardHat className="w-6 h-6 text-yellow-500" />
+                        <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
+                            <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                                <Award className="w-6 h-6 text-blue-400" />
+                            </div>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">A+ BBB<br />Rating</span>
                         </div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">OSHA<br />Certified</span>
+                        <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
+                            <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                                <HardHat className="w-6 h-6 text-yellow-500" />
+                            </div>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">OSHA<br />Certified</span>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Bio */}
                 {profile.bio && (
@@ -102,8 +105,29 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                     </div>
                 )}
 
+                {/* Conversion Badges */}
+                {profile.is_premium && (profile.accepts_credit_cards || profile.offers_financing || profile.free_consultations) && (
+                    <div className="px-8 py-6 border-b border-zinc-900 bg-zinc-950 flex flex-wrap gap-2">
+                        {profile.accepts_credit_cards && (
+                            <span className="text-xs font-bold text-brand-amber bg-brand-amber/10 border border-brand-amber/20 px-3 py-1.5 rounded-md flex items-center gap-1.5 uppercase tracking-wide">
+                                <Zap className="w-3 h-3" /> Accepts Credit Cards
+                            </span>
+                        )}
+                        {profile.offers_financing && (
+                            <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-md flex items-center gap-1.5 uppercase tracking-wide">
+                                <Zap className="w-3 h-3" /> Financing Available
+                            </span>
+                        )}
+                        {profile.free_consultations && (
+                            <span className="text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-md flex items-center gap-1.5 uppercase tracking-wide">
+                                <Zap className="w-3 h-3" /> Free Estimates
+                            </span>
+                        )}
+                    </div>
+                )}
+
                 {/* Photo Gallery */}
-                {profile.photo_library_urls && profile.photo_library_urls.length > 0 && (
+                {profile.is_premium && profile.photo_library_urls && profile.photo_library_urls.length > 0 && (
                     <div className="px-8 py-8 border-b border-zinc-900 bg-zinc-950">
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-5">Job Gallery</h3>
                         <div className="grid grid-cols-2 gap-3">
@@ -117,7 +141,7 @@ export default async function PublicProfilePage(props: { params: Promise<{ slug:
                 )}
 
                 {/* Services */}
-                {profile.service_options && profile.service_options.length > 0 && (
+                {profile.is_premium && profile.service_options && profile.service_options.length > 0 && (
                     <div className="px-8 py-8 border-b border-zinc-900 bg-zinc-950/50">
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-5">Our Services</h3>
                         <div className="flex flex-col gap-3">
