@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Trash2, AlertCircle } from 'lucide-react'
+import { Plus, Trash2, AlertCircle, Star } from 'lucide-react'
 import { ImageUploader } from './ImageUploader'
 import Image from 'next/image'
 
@@ -356,10 +356,22 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
             {/* Photo Gallery */}
             <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                    <h3 className="text-lg font-heading font-bold text-slate-100">Photo Gallery</h3>
+                    <h3 className="text-lg font-heading font-bold text-slate-100 flex items-center gap-2">
+                        Photo Gallery
+                        {!profile.is_premium && <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-brand-amber bg-brand-amber/10 px-2 py-0.5 rounded-full border border-brand-amber/20"><Star className="w-2.5 h-2.5 fill-brand-amber" /> PRO</span>}
+                    </h3>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {!profile.is_premium && (
+                    <div className="bg-brand-amber/10 border border-brand-amber/20 p-4 rounded-xl flex flex-col gap-2">
+                        <p className="text-sm text-brand-amber font-medium">Your photos are saved safely, but you need a Pro account to display them on your public profile.</p>
+                        <a href="/checkout" className="text-xs font-bold text-zinc-950 bg-brand-amber hover:bg-amber-400 px-4 py-2 rounded-lg self-start transition-colors">
+                            Upgrade to Pro
+                        </a>
+                    </div>
+                )}
+
+                <div className={`grid grid-cols-2 sm:grid-cols-3 gap-4 ${!profile.is_premium ? 'opacity-70' : ''}`}>
                     {(profile.photo_library_urls || []).map((url: string, i: number) => (
                         <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-zinc-800 group bg-zinc-900">
                             <Image src={url} alt={`Gallery Image ${i + 1}`} fill className="object-cover" />
