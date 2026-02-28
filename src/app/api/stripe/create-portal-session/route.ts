@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { auth } from '@clerk/nextjs/server';
 import { createClient } from '@/lib/supabase/server';
+import { headers } from 'next/headers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy', {
     apiVersion: '2023-10-16' as any,
@@ -25,7 +26,11 @@ export async function POST() {
             return new NextResponse('No Stripe customer found for user.', { status: 404 });
         }
 
-        const returnUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/settings`;
+        const headersList = await headers();
+        const host = headersList.get('host');
+        const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+        const baseUrl = `${protocol}://${host}`;
+        const returnUrl = `${baseUrl}/dashboard/settings`;
 
         const session = await stripe.billingPortal.sessions.create({
             customer: profile.stripe_customer_id,
