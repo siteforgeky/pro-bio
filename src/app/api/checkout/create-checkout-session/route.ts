@@ -9,18 +9,11 @@ export async function POST() {
     try {
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
-            mode: 'payment',
+            mode: 'subscription',
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: 'ProBio Premium Lifetime',
-                            description: 'Lifetime access to all premium ProBio features.',
-                        },
-                        unit_amount: 19900, // $199.00
-                    },
+                    price: process.env.STRIPE_PRICE_ID,
                     quantity: 1,
                 },
             ],
