@@ -127,35 +127,32 @@ export default async function PublicProfilePage(props: Props) {
                 </div>
 
                 {/* Trust Badges */}
-                {/* Trust Badges */}
-                {profile.is_premium && (
-                    <div className="px-8 py-6 bg-zinc-950 flex justify-center gap-4 border-b border-zinc-900">
-                        <div className={`flex flex-col items-center gap-2 max-w-[100px] ${!profile.is_licensed_insured ? 'opacity-40 grayscale' : ''}`}>
-                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center shadow-inner ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-zinc-900 border-zinc-800'}`}>
-                                <ShieldCheck className={`w-6 h-6 ${profile.is_licensed_insured && profile.verification_status === 'Verified' ? 'text-emerald-400' : 'text-brand-amber'}`} />
-                            </div>
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">
-                                {profile.is_licensed_insured && profile.verification_status !== 'Verified' ? 'Self-Reported\nLicensed' : 'Licensed & Insured'}
-                                <br />
-                                <span className="text-[8px] opacity-70">
-                                    {profile.is_licensed_insured && profile.verification_status === 'Verified' ? '(Verified by Rovult)' : '(Provided by Pro)'}
-                                </span>
+                <div className="px-8 py-6 bg-zinc-950 flex justify-center gap-4 border-b border-zinc-900">
+                    <div className={`flex flex-col items-center gap-2 max-w-[100px] ${!profile.is_licensed_insured ? 'opacity-40 grayscale' : ''}`}>
+                        <div className={`w-12 h-12 rounded-full border flex items-center justify-center shadow-inner ${(profile.is_premium && profile.is_licensed_insured && profile.verification_status === 'Verified') ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-zinc-900 border-zinc-800'}`}>
+                            <ShieldCheck className={`w-6 h-6 ${(profile.is_premium && profile.is_licensed_insured && profile.verification_status === 'Verified') ? 'text-emerald-400' : 'text-brand-amber'}`} />
+                        </div>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">
+                            {(profile.is_premium && profile.is_licensed_insured && profile.verification_status === 'Verified') ? 'Verified' : 'Licensed'}
+                            <br />
+                            <span className="text-[8px] opacity-70 mt-0.5 block">
+                                {(profile.is_premium && profile.is_licensed_insured && profile.verification_status === 'Verified') ? '(Verified by Rovult)' : '(Self-Reported)'}
                             </span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
-                            <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-                                <Award className="w-6 h-6 text-blue-400" />
-                            </div>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">A+ BBB<br />Rating</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
-                            <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-                                <HardHat className="w-6 h-6 text-yellow-500" />
-                            </div>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">OSHA<br />Certified</span>
-                        </div>
+                        </span>
                     </div>
-                )}
+                    <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
+                        <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                            <Award className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">A+ BBB<br />Rating</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
+                        <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+                            <HardHat className="w-6 h-6 text-yellow-500" />
+                        </div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center leading-tight">OSHA<br />Certified</span>
+                    </div>
+                </div>
 
                 {/* Bio */}
                 {profile.bio && (
@@ -258,14 +255,24 @@ export default async function PublicProfilePage(props: Props) {
                 </div>
             )}
 
-            <div className="mt-12 text-center pb-24 px-8 max-w-sm mx-auto">
+            <div className="mt-12 text-center pb-8 px-8 max-w-sm mx-auto">
                 <p className="text-[10px] text-zinc-600 mb-6 leading-relaxed">
                     Rovult provides a platform for pros to display their credentials. We recommend all users verify licenses and insurance directly with the provider before starting work.
                 </p>
-                <Link href="/" className="text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors inline-flex items-center gap-1.5 opacity-60 hover:opacity-100">
-                    Powered by <span className="text-brand-amber font-heading text-sm">ROVULT</span>
-                </Link>
             </div>
+
+            {/* "Powered by Rovult" Viral Loop - Only shown to Free Users */}
+            {!profile.is_premium && (
+                <div className="text-center pb-24 px-8 mx-auto w-full max-w-[420px] -mt-4">
+                    <Link href="/" className="inline-flex items-center gap-2.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800 px-5 py-2.5 rounded-full transition-all group shadow-sm">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 opacity-80 group-hover:opacity-100">
+                            Powered by <span className="text-xs font-black font-heading text-brand-amber tracking-wider">ROVULT</span>
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-zinc-700"></span>
+                        <span className="text-[11px] font-bold text-slate-300 underline underline-offset-2 decoration-zinc-600 group-hover:decoration-slate-400">Create yours for free</span>
+                    </Link>
+                </div>
+            )}
         </div>
     )
 }

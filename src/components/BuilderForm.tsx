@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Plus, Trash2, AlertCircle, Star, ShieldCheck, X } from 'lucide-react'
 import { ImageUploader } from './ImageUploader'
+import { UpgradeModal } from './UpgradeModal'
 import Image from 'next/image'
 
 const TRADE_SUGGESTIONS: Record<string, string[]> = {
@@ -68,8 +69,15 @@ function fuzzyMatch(str: string, pattern: string) {
 
 export default function BuilderForm({ profile, onChange }: { profile: any, onChange: (u: any) => void }) {
     const [serviceInput, setServiceInput] = useState('');
+    const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
     const handleLinkAdd = () => {
+        // Gating logic: Free users get max 1 custom link.
+        if (!profile.is_premium && (profile.links || []).length >= 1) {
+            setIsUpgradeModalOpen(true);
+            return;
+        }
+
         const newLinks = [...(profile.links || []), { title: '', url: '' }]
         onChange({ links: newLinks })
     }
@@ -230,13 +238,27 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Certificate of Insurance</label>
+                                    <label className="block text-sm font-medium text-slate-400 mb-1.5 flex items-center gap-2">
+                                        Certificate of Insurance
+                                        {!profile.is_premium && <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-brand-amber bg-brand-amber/10 px-1.5 py-0.5 rounded border border-brand-amber/20"><Star className="w-2.5 h-2.5 fill-brand-amber" /> PRO</span>}
+                                    </label>
                                     <div className="w-full overflow-hidden border border-zinc-800 rounded-xl bg-zinc-950 p-2">
-                                        <ImageUploader
-                                            currentImageUrl={profile.insurance_document_url}
-                                            onUploadComplete={(url) => onChange({ insurance_document_url: url })}
-                                            isGallery={true}
-                                        />
+                                        {!profile.is_premium ? (
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsUpgradeModalOpen(true)}
+                                                className="w-full h-32 border-2 border-dashed border-zinc-700 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-amber hover:bg-zinc-800/50 transition-all group"
+                                            >
+                                                <ShieldCheck className="w-8 h-8 text-slate-500 group-hover:text-brand-amber transition-colors" />
+                                                <span className="text-sm font-medium text-slate-400 group-hover:text-slate-300">Upgrade to Upload Documents</span>
+                                            </button>
+                                        ) : (
+                                            <ImageUploader
+                                                currentImageUrl={profile.insurance_document_url}
+                                                onUploadComplete={(url) => onChange({ insurance_document_url: url })}
+                                                isGallery={true}
+                                            />
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -268,6 +290,10 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                                     e.preventDefault();
                                     const val = serviceInput.trim();
                                     if (val && !(profile.service_options || []).includes(val)) {
+                                        if (!profile.is_premium && (profile.service_options || []).length >= 4) {
+                                            setIsUpgradeModalOpen(true);
+                                            return;
+                                        }
                                         const newServices = [...(profile.service_options || []), val];
                                         onChange({ service_options: newServices });
                                         setServiceInput('');
@@ -280,6 +306,10 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                             onClick={() => {
                                 const val = serviceInput.trim();
                                 if (val && !(profile.service_options || []).includes(val)) {
+                                    if (!profile.is_premium && (profile.service_options || []).length >= 4) {
+                                        setIsUpgradeModalOpen(true);
+                                        return;
+                                    }
                                     const newServices = [...(profile.service_options || []), val];
                                     onChange({ service_options: newServices });
                                     setServiceInput('');
@@ -331,6 +361,10 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                                             key={i}
                                             type="button"
                                             onClick={() => {
+                                                if (!profile.is_premium && (profile.service_options || []).length >= 4) {
+                                                    setIsUpgradeModalOpen(true);
+                                                    return;
+                                                }
                                                 const newServices = [...(profile.service_options || []), service];
                                                 onChange({ service_options: newServices });
                                             }}
@@ -357,6 +391,10 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                                             key={i}
                                             type="button"
                                             onClick={() => {
+                                                if (!profile.is_premium && (profile.service_options || []).length >= 4) {
+                                                    setIsUpgradeModalOpen(true);
+                                                    return;
+                                                }
                                                 const newServices = [...(profile.service_options || []), service];
                                                 onChange({ service_options: newServices });
                                                 setServiceInput('');
@@ -462,6 +500,11 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                     )}
                 </div>
             </div>
+
+            <UpgradeModal
+                isOpen={isUpgradeModalOpen}
+                onClose={() => setIsUpgradeModalOpen(false)}
+            />
         </div>
     )
 }
