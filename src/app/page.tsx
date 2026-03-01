@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
-import { ArrowRight, Zap, ShieldCheck, Wrench, Quote } from 'lucide-react';
+import { ArrowRight, Zap, ShieldCheck, Wrench, Quote, Check, Star } from 'lucide-react';
 import { TypewriterSlogan } from '@/components/TypewriterSlogan';
 
 const testimonials = [
@@ -227,33 +227,118 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Heavy Features Section */}
-        <section className="w-full bg-zinc-950/50">
-          <div className="px-6 py-32 max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-16">
-              <div className="flex flex-col items-start text-left">
-                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center mb-6 text-brand-amber border border-zinc-800 shadow-lg">
-                  <Zap className="w-8 h-8" />
+        {/* Pricing Section */}
+        <section className="w-full bg-zinc-950/50 py-32 border-t border-zinc-900 border-b relative overflow-hidden" id="pricing">
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-amber/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="text-center mb-20">
+              <h2 className="text-5xl md:text-6xl font-heading font-black text-slate-50 tracking-tighter mb-6">
+                Simple <span className="text-brand-amber">Pricing</span>, Clear ROI.
+              </h2>
+              <p className="text-xl text-slate-400 font-medium max-w-2xl mx-auto">
+                Win one job through a ProBio link, and your site pays for itself for years. Start free, upgrade when you're ready to dominate.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              {/* Free Tier */}
+              <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-zinc-700 transition-colors shadow-2xl">
+                <div className="mb-8">
+                  <h3 className="text-3xl font-heading font-black text-slate-100 mb-2">ProBio Core</h3>
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-5xl font-black text-slate-50">$0</span>
+                    <span className="text-slate-400 font-bold">/ forever</span>
+                  </div>
+                  <p className="text-slate-400 font-medium h-12">The perfect starting point to look like a true professional online.</p>
                 </div>
-                <h3 className="text-2xl font-heading font-black text-slate-100 mb-4 tracking-tight">Live in 3 Minutes</h3>
-                <p className="text-slate-400 text-lg leading-relaxed">Forget dragging and dropping. Answer three questions, and your business card is live on the internet.</p>
-              </div>
-              <div className="flex flex-col items-start text-left">
-                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center mb-6 text-brand-amber border border-zinc-800 shadow-lg">
-                  <ShieldCheck className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl font-heading font-black text-slate-100 mb-4 tracking-tight">Build Trust Instantly</h3>
-                <p className="text-slate-400 text-lg leading-relaxed">Showcase your license number and trade category front and center so customers know you are absolutely legit.</p>
-              </div>
-              <div className="flex flex-col items-start text-left group cursor-pointer">
-                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center mb-6 text-red-500 border border-zinc-800 shadow-lg group-hover:border-red-500/50 transition-colors">
-                  <div className="relative flex items-center justify-center">
-                    <span className="absolute w-10 h-10 rounded-full bg-red-500/0 group-hover:bg-red-500/20 group-hover:animate-ping transition-all duration-500"></span>
-                    <div className="w-5 h-5 rounded-full bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.5)] group-hover:scale-110 transition-transform"></div>
+
+                <div className="flex-1 flex flex-col gap-4 mb-10">
+                  <div className="flex items-center gap-4 text-slate-300 font-medium">
+                    <div className="bg-zinc-800 p-1.5 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    Custom <code>rovult.com/name</code> Link
+                  </div>
+                  <div className="flex items-center gap-4 text-slate-300 font-medium">
+                    <div className="bg-zinc-800 p-1.5 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    Mobile-First Profile Builder
+                  </div>
+                  <div className="flex items-center gap-4 text-slate-300 font-medium">
+                    <div className="bg-zinc-800 p-1.5 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    Business Contact Buttons (Call, Email)
+                  </div>
+                  <div className="flex items-center gap-4 text-slate-300 font-medium">
+                    <div className="bg-zinc-800 p-1.5 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    Display Core Services
+                  </div>
+                  <div className="flex items-center gap-4 text-slate-300 font-medium">
+                    <div className="bg-zinc-800 p-1.5 rounded-full"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    Basic SEO Optimization
                   </div>
                 </div>
-                <h3 className="text-2xl font-heading font-black text-slate-100 mb-4 tracking-tight">Emergency Pulse</h3>
-                <p className="text-slate-400 text-lg leading-relaxed">Toggle emergency availability with one tap to intercept high-paying, after-hours jobs directly.</p>
+
+                <Link href="/onboarding" className="w-full flex items-center justify-center py-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-slate-100 font-bold tracking-wide transition-colors">
+                  Start Building Free
+                </Link>
+              </div>
+
+              {/* Premium Tier */}
+              <div className="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-brand-amber/40 rounded-3xl p-10 flex flex-col shadow-[0_0_50px_rgba(245,158,11,0.08)] relative overflow-hidden transform md:-translate-y-4">
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-400 to-brand-amber"></div>
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-amber/10 blur-[50px] rounded-full pointer-events-none"></div>
+
+                <div className="mb-4 inline-flex items-center gap-1.5 bg-brand-amber/10 border border-brand-amber/20 text-brand-amber text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full w-fit">
+                  <Star className="w-3.5 h-3.5 fill-brand-amber" /> Most Popular
+                </div>
+
+                <div className="mb-8">
+                  <h3 className="text-3xl font-heading font-black text-slate-100 mb-2">ProBio Premium</h3>
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-5xl font-black text-slate-50">$19</span>
+                    <span className="text-slate-400 font-bold">/ month</span>
+                  </div>
+                  <p className="text-slate-400 font-medium h-12">Heavy-duty conversion features designed to book high-paying leads.</p>
+                </div>
+
+                <div className="flex-1 flex flex-col gap-4 mb-10">
+                  <div className="flex items-start gap-4 text-slate-200 font-bold">
+                    <div className="bg-brand-amber/20 p-1.5 rounded-full mt-0.5"><Zap className="w-4 h-4 text-brand-amber fill-brand-amber" /></div>
+                    <div>
+                      24/7 Emergency Pulse
+                      <div className="text-sm text-slate-500 font-medium mt-0.5">Show a pulsing red badge when you're available for urgent calls.</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 text-slate-200 font-bold">
+                    <div className="bg-zinc-800 p-1.5 rounded-full mt-0.5"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    <div>
+                      Promote Financing Options
+                      <div className="text-sm text-slate-500 font-medium mt-0.5">Let customers know you offer financing for larger projects.</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 text-slate-200 font-bold">
+                    <div className="bg-zinc-800 p-1.5 rounded-full mt-0.5"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    <div>
+                      Accept Credit Cards Badge
+                      <div className="text-sm text-slate-500 font-medium mt-0.5">Increase trust by showing you accept cards for convenience.</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 text-slate-200 font-bold">
+                    <div className="bg-zinc-800 p-1.5 rounded-full mt-0.5"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    <div>
+                      Free Consultation Badge
+                      <div className="text-sm text-slate-500 font-medium mt-0.5">Highlight free estimates to encourage more inbound quotes.</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 text-slate-200 font-bold">
+                    <div className="bg-zinc-800 p-1.5 rounded-full mt-0.5"><Check className="w-4 h-4 text-emerald-400" /></div>
+                    <div>
+                      Everything in Core
+                    </div>
+                  </div>
+                </div>
+
+                <Link href="/onboarding" className="w-full flex items-center justify-center py-4 rounded-xl bg-gradient-to-br from-brand-amber to-amber-600 hover:from-amber-400 hover:to-brand-amber text-zinc-950 font-black text-lg tracking-wide shadow-[0_10px_30px_rgba(245,158,11,0.2)] hover:shadow-[0_10px_40px_rgba(245,158,11,0.4)] transition-all transform hover:-translate-y-0.5">
+                  Unlock Premium
+                </Link>
               </div>
             </div>
           </div>

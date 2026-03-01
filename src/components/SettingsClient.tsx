@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { updateProfile } from '@/app/dashboard/actions'
 import { Star } from 'lucide-react'
+import { UpgradeModal } from './UpgradeModal'
 
 interface SettingsProps {
     isEmergencyAvailable: boolean
@@ -26,6 +27,7 @@ export default function SettingsClient({
         free_consultations: freeConsultations
     })
     const [saving, setSaving] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const handleToggle = async (key: keyof typeof settings) => {
         const newValue = !settings[key]
@@ -68,16 +70,20 @@ export default function SettingsClient({
                     <button
                         type="button"
                         onClick={() => {
-                            if (!isLocked) handleToggle(stateKey);
+                            if (!isLocked) {
+                                handleToggle(stateKey);
+                            } else {
+                                setIsModalOpen(true);
+                            }
                         }}
-                        disabled={saving || isLocked}
-                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-amber focus:ring-offset-2 focus:ring-offset-zinc-900 ${enabled ? 'bg-brand-amber' : 'bg-zinc-700'} ${isLocked ? 'cursor-not-allowed opacity-50' : ''}`}
+                        disabled={saving}
+                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-amber focus:ring-offset-2 focus:ring-offset-zinc-900 ${enabled ? 'bg-brand-amber' : 'bg-zinc-700'} ${isLocked ? 'opacity-50 hover:opacity-80' : ''}`}
                         role="switch"
                         aria-checked={enabled}
                     >
                         <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${enabled ? 'translate-x-5' : 'translate-x-0'}`}></span>
                     </button>
-                    {isLocked && <a href="/checkout" className="text-[10px] font-medium text-brand-amber hover:text-amber-400 hover:underline">Unlock feature</a>}
+                    {isLocked && <button type="button" onClick={() => setIsModalOpen(true)} className="text-[10px] font-medium text-brand-amber hover:text-amber-400 hover:underline">Unlock feature</button>}
                 </div>
             </div>
         )
@@ -105,6 +111,8 @@ export default function SettingsClient({
                 description="Highlight that you offer free estimates to encourage more inbound quote requests."
                 stateKey="free_consultations"
             />
+
+            <UpgradeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     )
 }
