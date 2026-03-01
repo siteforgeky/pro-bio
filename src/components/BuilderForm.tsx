@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Trash2, AlertCircle, Star } from 'lucide-react'
+import { Plus, Trash2, AlertCircle, Star, ShieldCheck, X } from 'lucide-react'
 import { ImageUploader } from './ImageUploader'
 import Image from 'next/image'
 
@@ -99,49 +99,69 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
 
     return (
         <div className="space-y-8">
-            <div className="space-y-5">
-                <h3 className="text-lg font-heading font-bold text-slate-100 border-b border-zinc-800 pb-2">Business Info</h3>
+            {/* Card 1: Brand Identity */}
+            <div className="space-y-6 bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/60">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div>
+                        <h3 className="text-lg font-heading font-bold text-slate-100">Brand Identity</h3>
+                        <p className="text-xs text-slate-400 mt-1">First impressions matter. Set your logo and core business details.</p>
+                    </div>
+                </div>
 
                 {/* Profile Picture Upload */}
                 <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-3">Profile Picture / Logo</label>
                     <ImageUploader
                         currentImageUrl={profile.profile_image_url}
                         onUploadComplete={(url) => onChange({ profile_image_url: url })}
                     />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Business Name</label>
-                    <input
-                        className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber transition-colors"
-                        value={profile.business_name || ''}
-                        onChange={e => onChange({ business_name: e.target.value })}
-                    />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Business Name</label>
+                        <input
+                            className="w-full rounded-xl px-4 py-3 bg-zinc-950/80 border border-zinc-800 text-slate-100 font-medium focus:outline-none focus:border-brand-amber focus:ring-1 focus:ring-brand-amber transition-all shadow-inner placeholder-slate-600"
+                            value={profile.business_name || ''}
+                            placeholder="e.g. Apex Plumbing"
+                            onChange={e => onChange({ business_name: e.target.value })}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Trade Category</label>
+                        <input
+                            className="w-full rounded-xl px-4 py-3 bg-zinc-950/80 border border-zinc-800 text-slate-100 font-medium focus:outline-none focus:border-brand-amber focus:ring-1 focus:ring-brand-amber transition-all shadow-inner placeholder-slate-600"
+                            value={profile.trade_category || ''}
+                            placeholder="e.g. Master Plumber"
+                            onChange={e => onChange({ trade_category: e.target.value })}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Card 2: Contact & Bio */}
+            <div className="space-y-6 bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/60">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div>
+                        <h3 className="text-lg font-heading font-bold text-slate-100">Contact & Details</h3>
+                        <p className="text-xs text-slate-400 mt-1">How customers will reach out to you.</p>
+                    </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Trade Category</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Phone Number</label>
                     <input
-                        className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber transition-colors"
-                        value={profile.trade_category || ''}
-                        onChange={e => onChange({ trade_category: e.target.value })}
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Phone Number</label>
-                    <input
-                        className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber transition-colors"
+                        className="w-full rounded-xl px-4 py-3 bg-zinc-950/80 border border-zinc-800 text-slate-100 font-medium focus:outline-none focus:border-brand-amber focus:ring-1 focus:ring-brand-amber transition-all shadow-inner placeholder-slate-600"
                         value={profile.phone_number || ''}
+                        placeholder="(555) 123-4567"
                         onChange={e => onChange({ phone_number: e.target.value })}
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-1.5">Bio</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Bio / About Us</label>
                     <textarea
-                        className="w-full rounded-md px-4 py-2.5 bg-zinc-950 border border-zinc-800 text-slate-100 focus:outline-none focus:border-brand-amber min-h-[120px] resize-y transition-colors"
+                        className="w-full rounded-xl px-4 py-3 bg-zinc-950/80 border border-zinc-800 text-slate-100 font-medium focus:outline-none focus:border-brand-amber focus:ring-1 focus:ring-brand-amber min-h-[120px] resize-y transition-all shadow-inner placeholder-slate-600 leading-relaxed"
                         value={profile.bio || ''}
                         placeholder="Tell customers about your experience. Why should they hire you?"
                         onChange={e => onChange({ bio: e.target.value })}
@@ -150,29 +170,32 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
             </div>
 
             {/* Trust & Verification */}
-            <div className="space-y-4 bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/60">
+            <div className={`space-y-4 p-5 rounded-2xl border transition-all duration-300 ${profile.is_licensed_insured ? 'bg-zinc-900/60 border-brand-amber/30 shadow-[0_0_20px_rgba(245,158,11,0.05)]' : 'bg-zinc-900/40 border-zinc-800/60'}`}>
                 <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
                     <div>
-                        <h3 className="text-lg font-heading font-bold text-slate-100">Trust & Verification</h3>
-                        <p className="text-xs text-slate-400 mt-1">Build confidence with your customers.</p>
+                        <h3 className="text-lg font-heading font-bold text-slate-100 mb-0.5">Trust & Verification</h3>
+                        <p className="text-xs text-slate-400">Build confidence with your customers instantly.</p>
                     </div>
                 </div>
 
                 <div className="space-y-5 pt-2">
-                    <label className="flex items-center justify-between cursor-pointer group">
+                    <label className="flex items-center justify-between cursor-pointer group bg-zinc-950/50 hover:bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 transition-all">
                         <div className="flex flex-col gap-1">
-                            <span className="text-sm font-bold text-slate-200 group-hover:text-brand-amber transition-colors">Licensed & Insured</span>
-                            <span className="text-xs text-slate-500">I confirm my business holds valid credentials.</span>
+                            <span className="text-sm font-bold text-slate-200 group-hover:text-brand-amber transition-colors flex items-center gap-2">
+                                <ShieldCheck className={`w-4 h-4 ${profile.is_licensed_insured ? 'text-brand-amber' : 'text-slate-500'}`} />
+                                Licensed & Insured
+                            </span>
+                            <span className="text-xs text-slate-500">Enable this to display verified credentials on your profile.</span>
                         </div>
-                        <div className="relative">
+                        <div className="relative shrink-0">
                             <input
                                 type="checkbox"
                                 className="sr-only"
                                 checked={profile.is_licensed_insured || false}
                                 onChange={(e) => onChange({ is_licensed_insured: e.target.checked })}
                             />
-                            <div className={`block w-14 h-8 rounded-full transition-colors duration-300 ${profile.is_licensed_insured ? 'bg-brand-amber' : 'bg-zinc-800'}`}></div>
-                            <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ${profile.is_licensed_insured ? 'translate-x-6' : ''}`}></div>
+                            <div className={`block w-12 h-7 rounded-full transition-colors duration-300 ${profile.is_licensed_insured ? 'bg-brand-amber' : 'bg-zinc-800 border border-zinc-700'}`}></div>
+                            <div className={`absolute left-1 top-1 bg-white w-5 h-5 rounded-full shadow-sm transition-transform duration-300 ${profile.is_licensed_insured ? 'translate-x-5' : ''}`}></div>
                         </div>
                     </label>
 
@@ -273,7 +296,7 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Your Services</h4>
                         <div className="flex flex-wrap gap-2 min-h-[40px]">
                             {(profile.service_options || []).map((service: string, i: number) => (
-                                <div key={i} className="flex items-center gap-1.5 bg-brand-amber/10 border border-brand-amber/30 text-brand-amber px-3.5 py-1.5 rounded-full text-sm font-bold shadow-sm animate-in zoom-in-95 duration-200">
+                                <div key={i} className="flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 text-slate-200 hover:border-brand-amber/50 px-3 py-1.5 rounded-lg text-sm font-medium shadow-sm transition-colors group">
                                     <span>{service}</span>
                                     <button
                                         type="button"
@@ -283,9 +306,9 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                                             newServices.splice(i, 1);
                                             onChange({ service_options: newServices });
                                         }}
-                                        className="hover:bg-brand-amber/20 hover:text-red-400 rounded-full p-0.5 transition-colors ml-1"
+                                        className="text-slate-500 hover:text-red-400 p-0.5 transition-colors ml-1 opacity-60 group-hover:opacity-100"
                                     >
-                                        <Trash2 className="w-3.5 h-3.5" />
+                                        <X className="w-3.5 h-3.5" />
                                     </button>
                                 </div>
                             ))}
@@ -338,7 +361,7 @@ export default function BuilderForm({ profile, onChange }: { profile: any, onCha
                                                 onChange({ service_options: newServices });
                                                 setServiceInput('');
                                             }}
-                                            className="text-xs font-medium bg-zinc-950 border border-zinc-800 text-slate-400 hover:text-slate-200 hover:border-brand-amber px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 group"
+                                            className="text-xs font-medium bg-zinc-900 border border-zinc-800 text-slate-400 hover:text-slate-200 hover:border-brand-amber hover:bg-zinc-800 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 group"
                                         >
                                             <Plus className="w-3 h-3 text-zinc-600 group-hover:text-brand-amber transition-colors" />
                                             {service}

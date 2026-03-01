@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { UploadCloud, X, Loader2, Image as ImageIcon } from 'lucide-react';
+import { UploadCloud, Loader2, Image as ImageIcon, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useAuth } from '@clerk/nextjs';
 
@@ -109,11 +109,11 @@ export function ImageUploader({
                     </span>
                 </button>
             ) : (
-                <div className="flex items-center gap-6">
-                    <div
-                        onClick={triggerFileSelect}
-                        className={`relative w-24 h-24 rounded-full bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center overflow-hidden group hover:border-brand-amber transition-colors ${isUploading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                    >
+                <div
+                    onClick={triggerFileSelect}
+                    className={`w-full relative group p-6 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-950/50 hover:bg-zinc-900 hover:border-brand-amber/50 transition-all flex flex-col sm:flex-row items-center gap-6 cursor-pointer ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}
+                >
+                    <div className="relative w-28 h-28 rounded-full bg-zinc-900 border-4 border-zinc-950 shadow-xl flex items-center justify-center overflow-hidden shrink-0">
                         {preview ? (
                             <Image
                                 src={preview}
@@ -122,28 +122,35 @@ export function ImageUploader({
                                 className="object-cover"
                             />
                         ) : (
-                            <ImageIcon className="w-8 h-8 text-zinc-500" />
+                            <ImageIcon className="w-10 h-10 text-zinc-600" />
+                        )}
+
+                        {/* Uploading Overlay */}
+                        {isUploading && (
+                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+                                <Loader2 className="w-6 h-6 text-brand-amber animate-spin" />
+                            </div>
                         )}
 
                         {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            {isUploading ? (
-                                <Loader2 className="w-6 h-6 text-brand-amber animate-spin" />
-                            ) : (
-                                <UploadCloud className="w-6 h-6 text-slate-200" />
-                            )}
-                        </div>
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                     </div>
-                    <div>
-                        <button
-                            type="button"
-                            onClick={triggerFileSelect}
-                            disabled={isUploading}
-                            className="text-sm font-bold text-slate-200 bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-lg transition-colors border border-zinc-700"
-                        >
-                            {isUploading ? 'Uploading...' : 'Change Picture'}
-                        </button>
-                        <p className="text-xs text-slate-500 mt-2">JPG, GIF or PNG. 1MB max.</p>
+
+                    {/* Floating Pencil Icon */}
+                    <div className="absolute left-[8.5rem] top-24 w-8 h-8 rounded-full bg-brand-amber text-zinc-950 flex items-center justify-center shadow-lg border-2 border-zinc-950 transform -translate-y-1/2 -ml-3 z-20 group-hover:scale-110 transition-transform hidden sm:flex">
+                        <Pencil className="w-3.5 h-3.5 fill-current" />
+                    </div>
+
+                    <div className="text-center sm:text-left flex-1 pb-2 sm:pb-0">
+                        <h4 className="text-base font-bold text-slate-200 mb-1 group-hover:text-brand-amber transition-colors">
+                            {isUploading ? 'Uploading...' : 'Upload Profile Photo'}
+                        </h4>
+                        <p className="text-xs text-slate-500 leading-relaxed max-w-xs">
+                            Customers trust pros they can see. Use a clear photo of yourself or your company logo.
+                        </p>
+                        <p className="text-[10px] text-slate-600 font-medium mt-3 uppercase tracking-wider">
+                            JPG, PNG or GIF. Max 2MB.
+                        </p>
                     </div>
                 </div>
             )}
