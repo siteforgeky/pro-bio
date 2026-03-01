@@ -237,7 +237,7 @@ export default function Home() {
                 Simple <span className="text-brand-amber">Pricing</span>, Clear ROI.
               </h2>
               <p className="text-xl text-slate-400 font-medium max-w-2xl mx-auto">
-                Win one job through a ProBio link, and your site pays for itself for years. Start free, upgrade when you're ready to dominate.
+                Win one job through a Rovult link, and your site pays for itself for years. Start free, upgrade when you're ready to dominate.
               </p>
             </div>
 
@@ -245,7 +245,7 @@ export default function Home() {
               {/* Free Tier */}
               <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-zinc-700 transition-colors shadow-2xl">
                 <div className="mb-8">
-                  <h3 className="text-3xl font-heading font-black text-slate-100 mb-2">ProBio Core</h3>
+                  <h3 className="text-3xl font-heading font-black text-slate-100 mb-2">Rovult Core</h3>
                   <div className="flex items-baseline gap-2 mb-4">
                     <span className="text-5xl font-black text-slate-50">$0</span>
                     <span className="text-slate-400 font-bold">/ forever</span>
@@ -291,9 +291,9 @@ export default function Home() {
                 </div>
 
                 <div className="mb-8">
-                  <h3 className="text-3xl font-heading font-black text-slate-100 mb-2">ProBio Premium</h3>
+                  <h3 className="text-3xl font-heading font-black text-slate-100 mb-2">Rovult Premium</h3>
                   <div className="flex items-baseline gap-2 mb-4">
-                    <span className="text-5xl font-black text-slate-50">$19</span>
+                    <span className="text-5xl font-black text-slate-50">$14</span>
                     <span className="text-slate-400 font-bold">/ month</span>
                   </div>
                   <p className="text-slate-400 font-medium h-12">Heavy-duty conversion features designed to book high-paying leads.</p>

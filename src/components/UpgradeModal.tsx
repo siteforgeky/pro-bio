@@ -47,7 +47,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
                     {/* Title */}
                     <div className="mb-8 pr-10">
                         <div className="inline-flex items-center gap-1.5 bg-brand-amber/10 border border-brand-amber/20 text-brand-amber text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full mb-4">
-                            <Star className="w-3.5 h-3.5 fill-brand-amber" /> ProBio Premium
+                            <Star className="w-3.5 h-3.5 fill-brand-amber" /> Rovult Premium
                         </div>
                         <h2 className="text-3xl font-heading font-black text-slate-50 mb-2">Unlock Growth <br />Features</h2>
                         <p className="text-slate-400 font-medium">Equip your profile with heavy-duty trust signals to capture high-paying leads.</p>
@@ -96,7 +96,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
                             {isLoading ? (
                                 <><Loader2 className="w-5 h-5 animate-spin" /> Preparing Checkout...</>
                             ) : (
-                                <>Upgrade Now - $19/mo <ArrowRight className="w-5 h-5 stroke-[3]" /></>
+                                <>Upgrade Now - $14/mo <ArrowRight className="w-5 h-5 stroke-[3]" /></>
                             )}
                         </button>
                         <p className="text-center text-zinc-500 text-[10px] font-medium mt-4 uppercase tracking-wider">Secure processing by Stripe</p>
