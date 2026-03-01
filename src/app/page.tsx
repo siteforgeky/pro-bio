@@ -1,7 +1,14 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
 import { ArrowRight, Zap, ShieldCheck, Wrench, Quote, Check, Star } from 'lucide-react';
 import { TypewriterSlogan } from '@/components/TypewriterSlogan';
+
+export const metadata: Metadata = {
+  title: 'Rovult | The Link-in-Bio for Blue-Collar Pros',
+  description: 'Stop losing jobs to guys with better websites. Build a high-converting, mobile-first profile in 3 minutes. The ultimate website builder for plumbers, electricians, and contractors.',
+};
+
 
 const testimonials = [
   {

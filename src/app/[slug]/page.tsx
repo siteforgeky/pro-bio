@@ -1,10 +1,72 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import type { Metadata, ResolvingMetadata } from 'next'
 import { PhoneCall, ShieldCheck, Mail, MessageSquare, Award, HardHat, Wrench, Hammer, Zap, Droplet } from 'lucide-react'
 import Link from 'next/link'
 import { QuoteForm } from '@/components/QuoteForm'
 
-export default async function PublicProfilePage(props: { params: Promise<{ slug: string }> }) {
+type Props = {
+    params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const slug = (await params).slug
+    const supabase = await createClient()
+
+    const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('slug', slug)
+        .single()
+
+    const profile = data as any;
+
+    if (!profile) {
+        return {
+            title: 'Profile Not Found',
+        }
+    }
+
+    const title = profile.business_name || 'Professional Services'
+    const description = profile.bio
+        ? profile.bio.substring(0, 155) + (profile.bio.length > 155 ? '...' : '')
+        : `Check out ${title} on Rovult.`
+
+    const previousImages = (await parent).openGraph?.images || []
+
+    // Use their profile picture if they have one, otherwise fallback to the global OG image
+    const ogImage = profile.profile_image_url ? profile.profile_image_url : '/og-image.png'
+
+    return {
+        title: title,
+        description: description,
+        openGraph: {
+            title: title,
+            description: description,
+            url: `https://rovult.com/${slug}`,
+            images: [
+                {
+                    url: ogImage,
+                    width: profile.profile_image_url ? 800 : 1200,
+                    height: profile.profile_image_url ? 800 : 630,
+                    alt: title,
+                },
+                ...previousImages,
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: title,
+            description: description,
+            images: [ogImage],
+        },
+    }
+}
+
+export default async function PublicProfilePage(props: Props) {
     const params = await props.params;
     const supabase = await createClient()
 
