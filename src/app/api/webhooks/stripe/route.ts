@@ -57,7 +57,7 @@ export async function POST(req: Request) {
                 if (subscriptionId) {
                     const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
 
-                    await supabaseAdmin
+                    const { error } = await supabaseAdmin
                         .from('profiles')
                         .update({
                             is_premium: subscription.status === 'active' || subscription.status === 'trialing',
@@ -67,6 +67,11 @@ export async function POST(req: Request) {
                             stripe_current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
                         })
                         .eq('user_id', userId);
+
+                    if (error) {
+                        console.error('Error updating Supabase profile:', error);
+                        throw new Error(`Profile update failed: ${error.message}`);
+                    }
                 }
                 break;
             }
